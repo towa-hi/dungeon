@@ -1,15 +1,13 @@
-enum stat
+enum statistic
 {
-    phyDef, magDef, phyEva, magEva, profPoints, speed
+    phyDef, magDef, phyEva, magEva, profPoints, speed, currentHP
 }
 
 public class Pawn
 {
     string name;
-    boolean isPlayable;
-    boolean isLeader;
-    boolean isInParty;
     Status debuff; /* poisoned, confused, dead, etc */
+    // change stats to a dictionary using the statistic enum
     double maxHp;
     int level;
     int exp; /* collected experience points */
@@ -27,14 +25,35 @@ public class Pawn
     Helmet helm;
     Armor armor;
     Accessory accessory;
-    
-    /* In DE, pawns need to be found on the map.
-     * Additionally, they need to be picked up when they fall in battle.
-     * Or, you can drop them off at certain spots to juggle between your 4 slots.
-     * May want to ignore this mechanic and just have a basic caravan.
-     */
-    
-    // Vector3int position
 
     // battle stuff here? need ints for temp def, ATB gauge?
+}
+public class Hero : Pawn
+{
+    boolean isLeader;
+    boolean isInParty;
+    /* In DE, Heros can be found on the map.
+     * Additionally, they need to be picked up when they fall in battle.
+     * Or, you can drop them off at certain spots to juggle between your 4 slots.
+     */
+    
+    Vector3Int mapPosition;
+}
+
+public class Monster : Pawn
+{
+    int expDroppedOnKill;
+    int goldDroppedOnKill;
+    boolean isFlying;
+    boolean isReflect;
+    Item commonDrop;
+    Item rareDrop;
+    /* Monsters can also drop items in the shop.
+     * These go directly to shop's stock.
+     */
+    Item commonShop;
+    Item rareShop;
+    // Status immunities, not sure how to implement
+    // Say the final boss is immune to all 7 statuses because we hate the player
+    // so it's a Status array
 }

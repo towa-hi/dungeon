@@ -2,16 +2,16 @@ public class Item
 {
     string name;
 }
-public class Usabe
+public class Usable
 {
-    // some effect
-    stat // hp
-    value // +100
-    .stat += value
+    /* for usable items
+     * all the ones in DE just buff one stat,
+     * like "permanently increase max HP by 100"
+     * i guess we could do like health potions too
+     */
 }
-public class Equipment
+public class Equipment : Item
 {
-    string name;
     int proficiencyPoints;
     int speed;
 }
@@ -25,7 +25,7 @@ public class Weapon : Equipment
     enum damageType
     {
         physical, magic, pure
-    } /* physical or magic damage */
+    }
     /* ranged or melee */
     enum target
     {
@@ -51,7 +51,7 @@ public class Helmet : Equipment
     int magDef;
 }
 
-/* Armor add phyical defense */
+/* Armor adds phyical defense */
 public class Armor : Equipment
 {
     int phyDef;
@@ -60,6 +60,5 @@ public class Armor : Equipment
 /* Accessories buff one or two Pawn stats, also have speed and PP */
 public class Accessory : Equipment
 {
-
     int amount;
 }
