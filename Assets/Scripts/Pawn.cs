@@ -1,3 +1,5 @@
+using UnityEngine;
+
 enum statistic
 {
     phyDef, magDef, phyEva, magEva, profPoints, speed, currentHP
@@ -30,8 +32,8 @@ public class Pawn
 }
 public class Hero : Pawn
 {
-    boolean isLeader;
-    boolean isInParty;
+    bool isLeader;
+    bool isInParty;
     /* In DE, Heros can be found on the map.
      * Additionally, they need to be picked up when they fall in battle.
      * Or, you can drop them off at certain spots to juggle between your 4 slots.
@@ -44,8 +46,8 @@ public class Monster : Pawn
 {
     int expDroppedOnKill;
     int goldDroppedOnKill;
-    boolean isFlying;
-    boolean isReflect;
+    bool isFlying;
+    bool isReflect;
     Item commonDrop;
     Item rareDrop;
     /* Monsters can also drop items in the shop.

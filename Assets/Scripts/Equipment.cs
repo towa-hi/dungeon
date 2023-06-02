@@ -18,19 +18,22 @@ public class Equipment : Item
 public class Weapon : Equipment
 {
     int offense;
-    enum variance
+    public enum DamageVariance
     {
-        random, fixed
+        Random,
+        Fixed
     }
-    enum damageType
+    public enum DamageType
     {
-        physical, magic, pure
+        Physical,
+        Magic,
+        Pure
     }
     /* ranged or melee */
-    enum target
+    public enum Target
     {
-        multi,
-        single
+        Multi,
+        Single
     } /* multi = hits all enemies, single = one */
  
     Status appliedStatus; /* poison, petrify, sleep, steal, etc */
