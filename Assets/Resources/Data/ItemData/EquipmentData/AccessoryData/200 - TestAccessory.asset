@@ -27,4 +27,4 @@ MonoBehaviour:
   pDefense: 0
   mDefense: 0
   statAffected: 0
-  amount: 0
+  amount: 10

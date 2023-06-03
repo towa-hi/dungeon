@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HelmetData
   itemName: Test Helmet
   id: 400
-  equipmentType: 0
-  proficiencyPoints: 0
-  speed: 0
+  equipmentType: 2
+  proficiencyPoints: 1
+  speed: 1
   offense: 0
   appliedStatus:
     duration: 0
@@ -25,6 +25,6 @@ MonoBehaviour:
   damageVariance: 0
   damageType: 0
   pDefense: 0
-  mDefense: 0
+  mDefense: 1
   statAffected: 0
   amount: 0

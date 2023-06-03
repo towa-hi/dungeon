@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArmorData
   itemName: Test Armor
   id: 300
-  equipmentType: 0
-  proficiencyPoints: 0
-  speed: 0
+  equipmentType: 1
+  proficiencyPoints: 1
+  speed: 1
   offense: 0
   appliedStatus:
     duration: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
   proc: 0
   damageVariance: 0
   damageType: 0
-  pDefense: 0
+  pDefense: 1
   mDefense: 0
   statAffected: 0
   amount: 0

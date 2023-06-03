@@ -9,28 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e93689505555a68429fd1e3fd4c9502a, type: 3}
+  m_Script: {fileID: 11500000, guid: 69a7259e90d46964f8016793e5b547d5, type: 3}
   m_Name: 523 - Tier3MagicFixed
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  itemName: 
-  id: 0
-  proficiencyPoints: 0
-  speed: 0
-  offense: 0
+  itemName: Tier 3 Magic Fixed
+  id: 523
+  equipmentType: 0
+  proficiencyPoints: 16
+  speed: 30
+  offense: 30
   appliedStatus:
     duration: 0
     statusType: 0
   proc: 0
-  damageVariance: 0
-  damageType: 0
+  damageVariance: 1
+  damageType: 1
   pDefense: 0
   mDefense: 0
   statAffected: 0
   amount: 0
-  offense: 0
-  appliedStatus:
-    duration: 0
-    statusType: 0
-  proc: 0
-  damageVariance: 0
-  damageType: 0

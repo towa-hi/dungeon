@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Tier 1 Melee Fixed
   id: 501
   equipmentType: 0
-  proficiencyPoints: 1
+  proficiencyPoints: 4
   speed: 10
   offense: 10
   appliedStatus:

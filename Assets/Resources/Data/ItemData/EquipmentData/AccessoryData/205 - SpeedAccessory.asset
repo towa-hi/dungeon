@@ -9,12 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 69a7259e90d46964f8016793e5b547d5, type: 3}
   m_Name: 205 - SpeedAccessory
   m_EditorClassIdentifier: Assembly-CSharp::AccessoryData
   itemName: Speed Accessory
   id: 205
-  proficiencyPoints: 1
-  speed: 10
-  affectedStat: 5
-  amount: 10
+  equipmentType: 3
+  proficiencyPoints: 5
+  speed: 0
+  offense: 0
+  appliedStatus:
+    duration: 0
+    statusType: 0
+  proc: 0
+  damageVariance: 0
+  damageType: 0
+  pDefense: 0
+  mDefense: 0
+  statAffected: 0
+  amount: 50
