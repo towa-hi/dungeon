@@ -6,7 +6,7 @@ using UnityEngine;
 public class MainMenuController : MonoBehaviour
 {
     private static MainMenuController ins;
-    public static MainMenuController instance {get{return instance;}}
+    public static MainMenuController instance {get{return ins;}}
 
     [SerializeField] public GameObject mainMenu;
     [SerializeField] public GameObject loadMenu;
@@ -71,14 +71,23 @@ public class MainMenuController : MonoBehaviour
 
     public void OnMainMenuLoadGame()
     {
-        SetState(MenuState.Load);
+        GameController.instance.LoadGameFromMenu();
     }
 
     public void OnMainMenuStartGame()
     {
-        SetState(MenuState.Off);
+        GameController.instance.StartNewGame();
     }
 
+    public void OnMainMenuSaveGame()
+    {
+        if (GameController.instance.gameState != null)
+        {
+            GameController.instance.SaveGame(GameController.instance.gameState);
+
+        }
+    }
+    
     public void OnMainMenuSettings()
     {
         SetState(MenuState.Settings);

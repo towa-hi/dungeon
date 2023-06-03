@@ -35,6 +35,10 @@ public class PawnState
     public Equipment equippedArmor;
     public Equipment equippedAccessory;
 
+    // player specific fields
+
+    public Sprite mapSprite;
+    
     public int GetBaseSpeed()
     {
         return speed;
