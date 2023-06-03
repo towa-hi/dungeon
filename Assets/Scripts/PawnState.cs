@@ -18,9 +18,6 @@ public class PawnState
     public int proficiency;
     public int proficiencyCap;
     
-    // player specific stats
-    public bool isLeader;
-    
     // monster specific ones
     public bool isFlying;
     public Item commonDrop;
@@ -28,10 +25,13 @@ public class PawnState
     public int experienceReward;
     public int goldReward;
     
-    public List<Status> effectedStatuses;
-    public List<Equipment> equipment;
+    public List<Status> afflictedStatuses;
+    public List<Equipment> equipmentList;
     public Weapon equippedRight;
     public Weapon equippedLeft;
+    public Helmet equippedHelmet;
     public Armor equippedArmor;
     public Accessory equippedAccessory;
+    
+    //
 }

@@ -1,6 +1,6 @@
 public class Item
 {
-    string name;
+    public string itemName;
 }
 public class Usable
 {
@@ -12,56 +12,40 @@ public class Usable
 }
 public class Equipment : Item
 {
-    int proficiencyPoints;
-    int speed;
+    public int proficiencyPoints;
+    public int speed;
 }
 public class Weapon : Equipment
 {
-    int offense;
-    public enum DamageVariance
-    {
-        Random,
-        Fixed
-    }
-    public enum DamageType
-    {
-        Physical,
-        Magic,
-        Pure
-    }
-    /* ranged or melee */
-    public enum Target
-    {
-        Multi,
-        Single
-    } /* multi = hits all enemies, single = one */
+    public int offense;
+
  
-    Status appliedStatus; /* poison, petrify, sleep, steal, etc */
-    float proc; /* percent chance of status */
+    public Status appliedStatus; /* poison, petrify, sleep, steal, etc */
+    public float proc; /* percent chance of status */
     /* DE doesn't have crits, but if we do crit chances maybe "proc" needs renaming */
 
     /* DE doesn't display equipped weapons in the inventory screen.
      * That means it doesn't keep track of them like this,
      * but this should be easy to show in a menu ig
      */
-    bool isEquipped;
-    Pawn equippedTo;
+    public bool isEquipped;
 }
 
 /* Helmets add magic defense */
 public class Helmet : Equipment
 {
-    int magDef;
+    public int mDefense;
 }
 
 /* Armor adds phyical defense */
 public class Armor : Equipment
 {
-    int phyDef;
+    public int pDefense;
 }
 
 /* Accessories buff one or two Pawn stats, also have speed and PP */
 public class Accessory : Equipment
 {
-    int amount;
+    public Stat affectedStat;
+    public int amount;
 }

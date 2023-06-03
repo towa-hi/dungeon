@@ -26,7 +26,7 @@ public class MapController : MonoBehaviour
         {
             // kill self
             Destroy(this.gameObject);
-            Debug.LogError("MainMenuController encountered duplicate singleton, deleted self");
+            Debug.LogError("MapController encountered duplicate singleton, deleted self");
             return;
         }
 

@@ -27,3 +27,21 @@ public enum Team
     PLAYER,
     ENEMY
 }
+
+public enum DamageVariance
+{
+    RANDOM,
+    FIXED
+}
+public enum DamageType
+{
+    PHYSICAL,
+    MAGIC,
+    PURE
+}
+/* ranged or melee */
+public enum Target
+{
+    MULTI,
+    SINGLE
+} /* multi = hits all enemies, single = one */
