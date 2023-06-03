@@ -16,7 +16,19 @@ public class SerializedGameState
     public HashSet<Vector3Int> visitedTiles;
     
     public List<PawnState> allPawns;
-    public HashSet<int> pawnsInParty;
+    public List<int> pawnsInParty;
     public List<Item> inventory;
-    
+
+    public static SerializedGameState CreateNew()
+    {
+        SerializedGameState newState = new SerializedGameState();
+        newState.money = 0;
+        newState.leaderPawnId = 0;
+        newState.totalVisitedTiles = 1;
+        
+        newState.floor = 0;
+        newState.playerPos = new Vector3Int(8, 8, 0);
+        
+        return newState;
+    }
 }
