@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameController : MonoBehaviour
 {
@@ -22,13 +23,14 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Debug.Log("GameController started");
-        GameSMMainMenuState newState = new GameSMMainMenuState();
-        
+        StartGame();
     }
-
     void StartGame()
     {
-        
+        MapController.instance.Initialize();
+        MapController.instance.LoadFloor(0);
+        Debug.Log("game started");
+
     }
     public void SetState(GameState newState)
     {

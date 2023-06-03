@@ -1,13 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-enum statistic
-{
-    phyDef, magDef, phyEva, magEva, profPoints, speed, currentHP
-}
+
 
 public class Pawn
 {
-    string name;
+    public string pawnName;
+    
+    
+    
+    
+    
+    public Dictionary<Stat, int> initialStats = new Dictionary<Stat, int>();
+    public Dictionary<Stat, int> currentStats = new Dictionary<Stat, int>();
     Status debuff; /* poisoned, confused, dead, etc */
     // change stats to a dictionary using the statistic enum
     double maxHp;

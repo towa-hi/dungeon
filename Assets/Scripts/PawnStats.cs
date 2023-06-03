@@ -2,13 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSM : StateMachine
-{    
-    public GameSM(State initialState) : base(initialState)
-    {
-        
-    }
-    
+public class PawnStats : MonoBehaviour
+{
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +15,4 @@ public class GameSM : StateMachine
     {
         
     }
-}
-
-public class GameSMMainMenuState : State
-{
-    
 }
