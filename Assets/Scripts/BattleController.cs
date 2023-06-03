@@ -45,12 +45,40 @@ public class BattleController : MonoBehaviour
     public void StartBattle()
     {
         // populate player and enemyteams with dummy 
-        Weapon genericWeapon = new Weapon();
-        PawnState firstGuysPawnState = new PawnState();
-        Pawn firstGuy = new Pawn(firstGuysPawnState);
+        Weapon sword = new Weapon();
+        sword.offense = 10;
+        sword.speed = 5;
+        sword.proficiencyPoints = 5;
+        sword.itemName = "sword";
+        Weapon teeth = new Weapon();
+        teeth.offense = 5;
+        teeth.speed = 10;
+        teeth.itemName = "teeth";
+        Weapon club = new Weapon();
+        club.offense = 20;
+        club.itemName = "club";
+        Helmet plateHelm = new Helmet();
+        plateHelm.mDefense = 100;
+        Helmet cap = new Helmet();
+        cap.mDefense = 1;
+        cap.speed = 10;
+        Armor plateChest = new Armor();
+        plateChest.pDefense = 100;
+        Armor leather = new Armor();
+        leather.pDefense = 1;
+        leather.speed = 15;
+        
+        PawnState warrior = new PawnState();
+        Pawn gimli = new Pawn(warrior);
+        Pawn aragorn = new Pawn(warrior);
         // apply equipment 
-        
-        
+        /* should have a setter function that does this in the "equip" menu */
+        gimli.initialState.EquipWeaponRight(sword);
+        gimli.initialState.EquipHelmet(plateHelm);
+        gimli.initialState.EquipArmor(plateChest);
+        aragorn.initialState.EquipWeaponRight(sword);
+        aragorn.initialState.EquipHelmet(cap);
+        aragorn.initialState.EquipArmor(leather);
     }
     
     

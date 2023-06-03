@@ -13,12 +13,17 @@ public class Usable
 public class Equipment : Item
 {
     public int proficiencyPoints;
-    public int speed;
+    public int speed = 0;
 }
 public class Weapon : Equipment
 {
     public int offense;
-
+    /* need:
+     * melee or ranged
+     * magic or physical or pure damage
+     * random or fixed damage numbers
+     * single or multi target
+     */
  
     public Status appliedStatus; /* poison, petrify, sleep, steal, etc */
     public float proc; /* percent chance of status */
