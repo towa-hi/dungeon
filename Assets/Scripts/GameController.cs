@@ -58,8 +58,13 @@ public class GameController : MonoBehaviour
         PawnData[] allPawns = (PawnData[])Resources.FindObjectsOfTypeAll(typeof(PawnData));
         foreach (PawnData pawnData in allPawns)
         {
-            
+            PawnState pawn = new PawnState();
+            pawn.id = pawnData.id;
+            pawn.name = pawnData.name;
+            pawn.team = pawnData.team;
+            pawn.experience = pawnData.experience;
         }
+        
         SerializedGameState newGame = SerializedGameState.CreateNew();
         SaveGame(newGame);
         LoadGame();
