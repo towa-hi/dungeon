@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using File = UnityEngine.Windows.File;
@@ -69,6 +70,11 @@ public class GameController : MonoBehaviour
             pawn.name = pawnData.name;
             pawn.team = pawnData.team;
             pawn.experience = pawnData.experience;
+            if (ItemDictionary.ContainsKey(pawnData.id))
+            {
+                Debug.LogError("Duplicate pawn id encountered: " + pawnData.id + "name: " + pawnData.name + " other name" + ItemDictionary[pawnData.id].itemName);
+                continue;
+            }
             PawnDictionary.Add(pawn.id, pawn);
             Debug.Log("loaded pawn " + pawn.id);
             pawn.afflictedStatuses = new List<Status>();
@@ -99,6 +105,11 @@ public class GameController : MonoBehaviour
             equipment.pDefense = equipmentData.pDefense;
             equipment.affectedStat = equipmentData.statAffected;
             equipment.amount = equipmentData.amount;
+            if (ItemDictionary.ContainsKey(equipment.id))
+            {
+                Debug.LogError("Duplicate item id encountered: " + equipmentData.id + "name: " + equipmentData.itemName + " other name" + ItemDictionary[equipmentData.id].itemName);
+                continue;
+            }
             ItemDictionary.Add(equipment.id, equipment);
             Debug.Log("loaded equipment " + equipment.id);
         }
