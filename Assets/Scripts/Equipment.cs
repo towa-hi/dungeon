@@ -2,6 +2,7 @@
 public class Item
 {
     public string itemName;
+    public int id;
 }
 public class Usable
 {
@@ -25,7 +26,9 @@ public class Weapon : Equipment
      * random or fixed damage numbers
      * single or multi target
      */
- 
+
+    public DamageVariance damageVariance;
+    public DamageType damageType;
     public Status appliedStatus; /* poison, petrify, sleep, steal, etc */
     public float proc; /* percent chance of status */
     /* DE doesn't have crits, but if we do crit chances maybe "proc" needs renaming */

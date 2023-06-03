@@ -13,8 +13,8 @@ public class Utility
 }
 public enum Stat
 {
-    PDEFENCE,
-    MDEFENCE,
+    PDEFENSE,
+    MDEFENSE,
     PEVASION,
     MEVASION,
     PROFICIENCY,
