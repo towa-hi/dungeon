@@ -14,7 +14,9 @@ public class GameController : MonoBehaviour
     
     [SerializeField] public GameObject mainMenuCanvas;
     private GameState state;
-    
+
+    public Dictionary<int, Item> ItemDictionary;
+    public Dictionary<int, PawnState> PawnDictionary;
     public enum GameState
     {
         MainMenu,
@@ -52,6 +54,12 @@ public class GameController : MonoBehaviour
         MapController.instance.Initialize();
         MapController.instance.LoadFloor(0);
         Debug.Log("game started");
+        // load all pawn and item defs
+        PawnData[] allPawns = (PawnData[])Resources.FindObjectsOfTypeAll(typeof(PawnData));
+        foreach (PawnData pawnData in allPawns)
+        {
+            
+        }
         SerializedGameState newGame = SerializedGameState.CreateNew();
         SaveGame(newGame);
         LoadGame();

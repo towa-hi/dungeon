@@ -45,3 +45,4 @@ public enum Target
     MULTI,
     SINGLE
 } /* multi = hits all enemies, single = one */
+
