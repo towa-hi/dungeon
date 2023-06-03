@@ -43,6 +43,10 @@ public class PawnState
         int newHP = level * 100;
         return newHP;
     }
+    // player specific fields
+
+    public Sprite mapSprite;
+    
     public int GetBaseSpeed()
     {
         return speed;

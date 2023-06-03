@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     public static GameController instance {get{return ins;}}
     
     [SerializeField] public GameObject mainMenuCanvas;
-    private GameState state;
+    public GameState state;
 
     public Dictionary<int, Item> ItemDictionary;
     public Dictionary<int, PawnState> PawnDictionary;
@@ -47,9 +47,26 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Debug.Log("GameController started");
-        StartGame();
     }
-    void StartGame()
+
+    public void StartNewGame()
+    {
+        InitializeGame();
+        SerializedGameState newGame = SerializedGameState.CreateNew();
+        SaveGame(newGame);
+        LoadGame();
+        SetState(GameState.Map);
+    }
+
+    public void LoadGameFromMenu()
+    {
+        
+        InitializeGame();
+        LoadGame();
+        SetState(GameState.Map);
+        
+    }
+    public void InitializeGame()
     {
         ItemDictionary = new Dictionary<int, Item>();
         PawnDictionary = new Dictionary<int, PawnState>();
@@ -105,6 +122,10 @@ public class GameController : MonoBehaviour
             pawn.name = pawnData.name;
             pawn.team = pawnData.team;
             pawn.experience = pawnData.experience;
+            pawn.baseSpeed = pawnData.baseSpeed;
+            pawn.speed = pawnData.speed;
+            pawn.speedCap = pawnData.speedCap;
+            pawn.mapSprite = pawnData.mapSprite;
             Equipment unarmed = (Equipment)ItemDictionary[500];
             pawn.EquipWeaponLeft(unarmed);
             pawn.EquipWeaponRight(unarmed);
@@ -117,13 +138,6 @@ public class GameController : MonoBehaviour
             Debug.Log("loaded pawn " + pawn.id);
             pawn.afflictedStatuses = new List<Status>();
         }
-
-        
-        SerializedGameState newGame = SerializedGameState.CreateNew();
-        SaveGame(newGame);
-        LoadGame();
-        
-
     }
     public void SetState(GameState newState)
     {
@@ -145,7 +159,7 @@ public class GameController : MonoBehaviour
     }
 
     private string savePath;
-    private SerializedGameState gameState;
+    public SerializedGameState gameState;
 
     public void LoadGame()
     {
@@ -159,8 +173,7 @@ public class GameController : MonoBehaviour
         SerializedGameState loadedGame = JsonUtility.FromJson<SerializedGameState>(fileContents);
         Debug.Log("loaded save file at " + savePath);
         gameState = loadedGame;
-        
-        
+
     }
     
     public void SaveGame(SerializedGameState saveGame)
@@ -169,6 +182,7 @@ public class GameController : MonoBehaviour
         print(data);
         System.IO.File.WriteAllText(savePath, data);
         Debug.Log("saved save file at " + savePath);
+        SetState(GameState.Map);
     }
     
 }

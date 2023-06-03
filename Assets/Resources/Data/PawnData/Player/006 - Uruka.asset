@@ -19,3 +19,4 @@ MonoBehaviour:
   baseSpeed: 0
   speed: 0
   speedCap: 0
+  mapSprite: {fileID: 21300000, guid: 312c63f9bccdc634a8e29af7728a15a3, type: 3}

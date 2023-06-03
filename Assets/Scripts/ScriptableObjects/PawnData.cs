@@ -11,5 +11,5 @@ public class PawnData : ScriptableObject
     public int baseSpeed;
     public int speed;
     public int speedCap;
-    
+    public Sprite mapSprite;
 }
