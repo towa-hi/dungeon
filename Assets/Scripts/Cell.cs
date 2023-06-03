@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,6 +11,7 @@ public class Cell : MonoBehaviour
     public Floor floor;
     public CellType cellType;
     public Vector3Int pos;
+    public bool visited = false;
 
     [SerializeField] public GameObject FloorCellObject;
     [SerializeField] public GameObject HiddenCellObject;
@@ -38,7 +40,14 @@ public class Cell : MonoBehaviour
         }
         else
         {
-            this.cellType = CellType.FLOOR;
+            if (tileData.sprite.name == "tilemap_48")
+            {
+                this.cellType = CellType.FLOOR;
+            }
+            else if (tileData.sprite.name == "tilemap_42")
+            {
+                this.cellType = CellType.HIDDEN;
+            }
         }
         
         // set world pos

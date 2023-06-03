@@ -47,9 +47,11 @@ MonoBehaviour:
   floor: {fileID: 0}
   cellType: 2
   pos: {x: 0, y: 0, z: 0}
+  visited: 0
   FloorCellObject: {fileID: 1470262802243544325, guid: 94d89f7ee47782a49af62e105215e734,
     type: 3}
-  HiddenCellObject: {fileID: 2690679088931954021, guid: 836f3845611660548989f851d2c5c36a,
+  HiddenCellObject: {fileID: 3577590429119344069, guid: 70a0973aa07322942b73269706c3da6d,
     type: 3}
   EmptyCellObject: {fileID: 2690679088931954021, guid: 836f3845611660548989f851d2c5c36a,
     type: 3}
+  EventObject: {fileID: 0}
