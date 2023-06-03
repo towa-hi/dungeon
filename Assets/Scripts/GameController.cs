@@ -19,6 +19,24 @@ public class GameController : MonoBehaviour
         Map,
         Battle
     }
+    private void Awake()
+    {
+        // boilerplate singleton code
+        
+        // if exists already
+        if (ins != null && ins != this)
+        {
+            // kill self
+            Destroy(this.gameObject);
+            Debug.LogError("MainMenuController encountered duplicate singleton, deleted self");
+            return;
+        }
+
+        ins = this;
+        
+        //make the gameobject for this persist across scenes
+        DontDestroyOnLoad(this.gameObject);
+    }
     
     void Start()
     {

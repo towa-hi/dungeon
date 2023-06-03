@@ -35,7 +35,7 @@ public class BattleController : MonoBehaviour
     {
         // update timeElapsed
         timeElapsed += 1f;
-        Debug.Log("timeElapsed: " + timeElapsed);
+        // Debug.Log("timeElapsed: " + timeElapsed);
     }
 
     void Start()

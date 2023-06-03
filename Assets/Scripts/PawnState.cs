@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class PawnState
 {
-    public Guid id;
+    public int id;
     public string name;
     public Team team;
     public int experience;
