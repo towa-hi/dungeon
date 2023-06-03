@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 {
     private static GameController ins;
     
-    public static GameController instance {get{return instance;}}
+    public static GameController instance {get{return ins;}}
     
     [SerializeField] public GameObject mainMenuCanvas;
     private GameState state;
@@ -37,7 +37,6 @@ public class GameController : MonoBehaviour
         }
 
         ins = this;
-        
         //make the gameobject for this persist across scenes
         DontDestroyOnLoad(this.gameObject);
         
@@ -51,11 +50,18 @@ public class GameController : MonoBehaviour
     }
     void StartGame()
     {
+        ItemDictionary = new Dictionary<int, Item>();
+        PawnDictionary = new Dictionary<int, PawnState>();
         MapController.instance.Initialize();
         MapController.instance.LoadFloor(0);
         Debug.Log("game started");
         // load all pawn and item defs
-        PawnData[] allPawns = (PawnData[])Resources.FindObjectsOfTypeAll(typeof(PawnData));
+        
+        PawnData[] allPlayerPawns = (PawnData[])Resources.LoadAll<PawnData>("Data/PawnData/Player");
+        PawnData[] allEnemyPawns = (PawnData[])Resources.LoadAll<PawnData>("Data/PawnData/Enemy");
+        List<PawnData> allPawns = new List<PawnData>();
+        allPawns.AddRange(allPlayerPawns);
+        allPawns.AddRange(allEnemyPawns);
         foreach (PawnData pawnData in allPawns)
         {
             PawnState pawn = new PawnState();
@@ -63,6 +69,38 @@ public class GameController : MonoBehaviour
             pawn.name = pawnData.name;
             pawn.team = pawnData.team;
             pawn.experience = pawnData.experience;
+            PawnDictionary.Add(pawn.id, pawn);
+            Debug.Log("loaded pawn " + pawn.id);
+            pawn.afflictedStatuses = new List<Status>();
+        }
+
+        EquipmentData[] AllAccessories = (EquipmentData[])Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/AccessoryData");
+        EquipmentData[] AllArmor = (EquipmentData[])Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/ArmorData");
+        EquipmentData[] AllHelmets = (EquipmentData[])Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/HelmetData");
+        EquipmentData[] AllWeapons = (EquipmentData[])Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/WeaponData");
+        List<EquipmentData> allEquipment = new List<EquipmentData>();
+        allEquipment.AddRange(AllAccessories);
+        allEquipment.AddRange(AllArmor);
+        allEquipment.AddRange(AllHelmets);
+        allEquipment.AddRange(AllWeapons);
+        foreach (EquipmentData equipmentData in allEquipment)
+        {
+            Equipment equipment = new Equipment();
+            equipment.id = equipmentData.id;
+            equipment.itemName = equipmentData.itemName;
+            equipment.equipmentType = equipmentData.equipmentType;
+            equipment.proficiencyPoints = equipmentData.proficiencyPoints;
+            equipment.speed = equipmentData.speed;
+            equipment.offense = equipmentData.offense;
+            equipment.damageVariance = equipmentData.damageVariance;
+            equipment.damageType = equipmentData.damageType;
+            equipment.proc = equipmentData.proc;
+            equipment.mDefense = equipmentData.mDefense;
+            equipment.pDefense = equipmentData.pDefense;
+            equipment.affectedStat = equipmentData.statAffected;
+            equipment.amount = equipmentData.amount;
+            ItemDictionary.Add(equipment.id, equipment);
+            Debug.Log("loaded equipment " + equipment.id);
         }
         
         SerializedGameState newGame = SerializedGameState.CreateNew();

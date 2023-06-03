@@ -29,18 +29,17 @@ public class PawnState
     public int goldReward;
     
     public List<Status> afflictedStatuses;
-    public List<Equipment> equipmentList;
-    public Weapon equippedRight;
-    public Weapon equippedLeft;
-    public Helmet equippedHelmet;
-    public Armor equippedArmor;
-    public Accessory equippedAccessory;
+    public Equipment equippedRight;
+    public Equipment equippedLeft;
+    public Equipment equippedHelmet;
+    public Equipment equippedArmor;
+    public Equipment equippedAccessory;
 
     public int GetBaseSpeed()
     {
         return speed;
     }
-    public int GetEquipmentSpeed(Weapon right = null, Weapon left = null, Helmet helmet = null, Armor armor = null, Accessory accessory = null)
+    public int GetEquipmentSpeed(Equipment right = null, Equipment left = null, Equipment helmet = null, Equipment armor = null, Equipment accessory = null)
     {
         int newSpeed = 0;
         if (left != null)
@@ -88,7 +87,7 @@ public class PawnState
     }
 
 
-    public int GetProficiency(Weapon right = null, Weapon left = null, Helmet helmet = null, Armor armor = null, Accessory accessory = null)
+    public int GetProficiency(Equipment right = null, Equipment left = null, Equipment helmet = null, Equipment armor = null, Equipment accessory = null)
     {
         int newProficiency = 0;
         if (left != null)
@@ -135,7 +134,7 @@ public class PawnState
         return newProficiency;
     }
 
-    public int GetPhyDefense(Armor armor = null, Accessory accessory = null)
+    public int GetPhyDefense(Equipment armor = null, Equipment accessory = null)
     {
         int newPhyDefense = 0;
         if (armor != null)
@@ -149,7 +148,7 @@ public class PawnState
         // TODO: handle accessory
         return newPhyDefense;
     }
-    public int GetMagDefense(Helmet helmet = null, Accessory accessory = null)
+    public int GetMagDefense(Equipment helmet = null, Equipment accessory = null)
     {
         int newMagDefense = 0;
         if (helmet != null)
@@ -165,7 +164,7 @@ public class PawnState
     }
     // TODO: add evasion getters
     // items can add max speed, defense, evasion. there should be a base value used instead of 0 in the above funcs
-    public bool EquipWeaponRight(Weapon rightWeapon)
+    public bool EquipWeaponRight(Equipment rightWeapon)
     {
         if (GetProficiency(right: rightWeapon) < proficiencyCap)
         {
@@ -178,7 +177,7 @@ public class PawnState
             return false;
         }
     }
-    public bool EquipWeaponLeft(Weapon leftWeapon)
+    public bool EquipWeaponLeft(Equipment leftWeapon)
     {
         if (GetProficiency(left: leftWeapon) < proficiencyCap)
         {
@@ -191,7 +190,7 @@ public class PawnState
             return false;
         }
     }
-    public bool EquipHelmet(Helmet someHelmet)
+    public bool EquipHelmet(Equipment someHelmet)
     {
         if (GetProficiency( helmet: someHelmet) < proficiencyCap)
         {
@@ -204,7 +203,7 @@ public class PawnState
             return false;
         }
     }
-    public bool EquipArmor(Armor someArmor)
+    public bool EquipArmor(Equipment someArmor)
     {
         if (GetProficiency(armor: someArmor) < proficiencyCap)
         {
@@ -217,7 +216,7 @@ public class PawnState
             return false;
         }
     }
-    public bool EquipAccessory(Accessory someAccessory)
+    public bool EquipAccessory(Equipment someAccessory)
     {
         if (GetProficiency(accessory: someAccessory) < proficiencyCap)
         {

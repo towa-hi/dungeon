@@ -46,3 +46,10 @@ public enum Target
     SINGLE
 } /* multi = hits all enemies, single = one */
 
+public enum EquipmentType
+{
+    Weapon,
+    Armor,
+    Helmet,
+    Accessory
+}

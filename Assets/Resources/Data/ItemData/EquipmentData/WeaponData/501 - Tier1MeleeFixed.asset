@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 69a7259e90d46964f8016793e5b547d5, type: 3}
   m_Name: 501 - Tier1MeleeFixed
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   itemName: Tier 1 Melee Fixed
   id: 501
+  equipmentType: 0
   proficiencyPoints: 1
   speed: 10
   offense: 10
@@ -23,3 +24,7 @@ MonoBehaviour:
   proc: 0
   damageVariance: 1
   damageType: 0
+  pDefense: 0
+  mDefense: 0
+  statAffected: 0
+  amount: 0

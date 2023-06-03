@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private static PlayerController ins;
-    public static PlayerController instance {get{return instance;}}
+    public static PlayerController instance {get{return ins;}}
     
     Camera mainCamera;
     public SpriteRenderer spriteRenderer;
