@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using File = UnityEngine.Windows.File;
 
 public class GameController : MonoBehaviour
 {
@@ -19,6 +21,26 @@ public class GameController : MonoBehaviour
         Map,
         Battle
     }
+    private void Awake()
+    {
+        // boilerplate singleton code
+        
+        // if exists already
+        if (ins != null && ins != this)
+        {
+            // kill self
+            Destroy(this.gameObject);
+            Debug.LogError("MainMenuController encountered duplicate singleton, deleted self");
+            return;
+        }
+
+        ins = this;
+        
+        //make the gameobject for this persist across scenes
+        DontDestroyOnLoad(this.gameObject);
+        
+        savePath =  Application.persistentDataPath + "/saveData.json";
+    }
     
     void Start()
     {
@@ -30,6 +52,9 @@ public class GameController : MonoBehaviour
         MapController.instance.Initialize();
         MapController.instance.LoadFloor(0);
         Debug.Log("game started");
+        SerializedGameState newGame = SerializedGameState.CreateNew();
+        SaveGame(newGame);
+        LoadGame();
 
     }
     public void SetState(GameState newState)
@@ -51,4 +76,31 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private string savePath;
+    private SerializedGameState gameState;
+
+    public void LoadGame()
+    {
+        if (!File.Exists(savePath))
+        {
+            Debug.LogError("No save game found at " + savePath);
+            return;
+        }
+
+        string fileContents = System.IO.File.ReadAllText(savePath);
+        SerializedGameState loadedGame = JsonUtility.FromJson<SerializedGameState>(fileContents);
+        Debug.Log("loaded save file at " + savePath);
+        gameState = loadedGame;
+        
+        
+    }
+    
+    public void SaveGame(SerializedGameState saveGame)
+    {
+        string data = JsonUtility.ToJson(saveGame);
+        print(data);
+        System.IO.File.WriteAllText(savePath, data);
+        Debug.Log("saved save file at " + savePath);
+    }
+    
 }
