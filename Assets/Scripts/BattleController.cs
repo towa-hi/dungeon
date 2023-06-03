@@ -44,34 +44,38 @@ public class BattleController : MonoBehaviour
     public float maxATB = 1000;
     void Update()
     {
-        /*
+        
         // update timeElapsed
         timeElapsed += 1f;
         Debug.Log("timeElapsed: " + timeElapsed);
         string loopPrint = "";
         foreach (Pawn player in playerTeam)
         {
-            player.ATB += player.GetEffectiveSpeed();
-            loopPrint += player.initialState.name + " hp: " + player.initialState.hp.ToString() + " speed: " +
-                         player.currentState.speed + "/" + maxATB + "/n";
+            player.ATB += (float)player.GetEffectiveSpeed();
+            loopPrint += player.initialState.name + " hp: " + player.initialState.hp.ToString() + 
+                         " speed: " + player.ATB + "/" + maxATB + "\n";
             if (player.ATB >= maxATB)
             {
                 // select random target to attack
                 doAttack(player, selectRandomTarget(enemyTeam));
+                player.ATB = 0;
             }
         }
 
         foreach (Pawn enemy in enemyTeam)
         {
-            loopPrint += enemy.initialState.name + " hp: " + enemy.initialState.hp.ToString() + " speed: " +
-                         enemy.currentState.speed + "/" + maxATB + "/n";
-            enemy.ATB += enemy.GetEffectiveSpeed();
+            enemy.ATB += (float)enemy.GetEffectiveSpeed();
+            Debug.Log("enemy speed is " + enemy.GetEffectiveSpeed().ToString());
+            loopPrint += enemy.initialState.name + " hp: " + enemy.initialState.hp.ToString() + 
+                         " speed: " + enemy.ATB + "/" + maxATB + "\n";
             if (enemy.ATB >= maxATB)
             {
                 doAttack(enemy, selectRandomTarget(playerTeam));
+                enemy.ATB = 0;
             }
         }
-        */
+        Debug.Log(loopPrint);
+        
     }
 
     /* Create a list of targets
@@ -87,6 +91,7 @@ public class BattleController : MonoBehaviour
 
     public void doAttack(Pawn attacker, List<Pawn> attackTargets)
     {
+        Debug.Log("pawn " + attacker.currentState.name + " attacks " + attackTargets[0].initialState.name);
         // pawn attacks!
         // select weapon (right, left)
         Equipment weapon = attacker.currentState.equippedRight;
@@ -105,92 +110,42 @@ public class BattleController : MonoBehaviour
     }
     public void StartBattle()
     {
-        PawnState lia = GameController.instance.PawnDictionary[1];
-        Equipment unarmed = (Equipment)GameController.instance.ItemDictionary[500];
         // populate player and enemyteams with dummy 
-
-        // Weapon sword = new Weapon();
-        // sword.offense = 10;
-        // sword.speed = 5;
-        // sword.proficiencyPoints = 5;
-        // sword.itemName = "sword";
-        // Weapon teeth = new Weapon();
-        // teeth.offense = 5;
-        // teeth.speed = 10;
-        // teeth.itemName = "teeth";
-        // Weapon club = new Weapon();
-        // club.offense = 20;
-        // club.itemName = "club";
-        // Helmet plateHelm = new Helmet();
-        // plateHelm.mDefense = 100;
-        // Helmet cap = new Helmet();
-        // cap.mDefense = 1;
-        // cap.speed = 10;
-        // Armor plateChest = new Armor();
-        // plateChest.pDefense = 100;
-        // Armor leather = new Armor();
-        // leather.pDefense = 1;
-        // leather.speed = 15;
-        //
-        // PawnState heavyFighter = new PawnState();
-        // PawnState lightFighter = new PawnState();
-        // PawnState rat = new PawnState();
-        // PawnState orc = new PawnState();
-        // // apply equipment 
-        // heavyFighter.EquipWeaponRight(sword);
-        // heavyFighter.EquipHelmet(plateHelm);
-        // heavyFighter.EquipArmor(plateChest);
-        // lightFighter.EquipWeaponRight(sword);
-        // lightFighter.EquipHelmet(cap);
-        // lightFighter.EquipArmor(leather);
-        // rat.EquipWeaponRight(teeth);
-        // orc.EquipWeaponRight(club);
-        // // set base stats
-        // heavyFighter.speed = 5;
-        // heavyFighter.hp = 100;
-        // lightFighter.speed = 20;
-        // lightFighter.hp = 100;
-        // rat.speed = 10;
-        // rat.hp = 30;
-        // orc.speed = 1;
-        // orc.hp = 300;
-        // // make them real pawns
-        // Pawn gimli = new Pawn(heavyFighter);
-        // Pawn aragorn = new Pawn(lightFighter);
-        // Pawn ratA = new Pawn(rat);
-        // Pawn ratB = new Pawn(rat);
-        // Pawn orcA = new Pawn(orc);
-        // /*
-        // gimli.currentState.speed = gimli.GetEffectiveSpeed();
-        // aragorn.currentState.speed = aragorn.GetEffectiveSpeed();
-        // ratA.currentState.speed = ratA.GetEffectiveSpeed();
-        // ratB.currentState.speed = ratB.GetEffectiveSpeed();
-        // */
-        // playerTeam.Add(gimli);
-        // playerTeam.Add(aragorn);
-        // enemyTeam.Add(ratA);
-        // enemyTeam.Add(ratB);
-
-        // real code?
+        PawnState testHero = GameController.instance.PawnDictionary[0];
+        PawnState testEnemy = GameController.instance.PawnDictionary[100];
+        Equipment unarmed = (Equipment)GameController.instance.ItemDictionary[500];
+        Equipment sword = (Equipment)GameController.instance.ItemDictionary[501];
+        testHero.proficiencyCap = 100;
+        testEnemy.proficiencyCap = 100;
+        testHero.EquipWeaponRight(sword);
+        testEnemy.EquipWeaponRight(unarmed);
+        
+        Pawn testHeroName = new Pawn(testHero);
+        Pawn testEnemyName = new Pawn(testEnemy);
+        
+        playerTeam = new List<Pawn>();
+        enemyTeam = new List<Pawn>();
+        playerTeam.Add(testHeroName);
+        enemyTeam.Add(testEnemyName);
         foreach (Pawn hero in playerTeam)
         {
             // these should be a function huh
             hero.currentState.speed = hero.GetEffectiveSpeed();
-            hero.currentState.phyDefense = hero.initialState.GetPhyDefense();
-            hero.currentState.magDefense = hero.initialState.GetMagDefense();
+            hero.currentState.phyDefense = hero.currentState.GetPhyDefense();
+            hero.currentState.magDefense = hero.currentState.GetMagDefense();
             // get evasion too
-            hero.currentState.hp = hero.initialState.hp;
+            hero.currentState.hp = hero.currentState.GetHealth();
         }
         foreach (Pawn enemy in enemyTeam)
         {
             enemy.currentState.speed = enemy.GetEffectiveSpeed();
-            enemy.currentState.phyDefense = enemy.initialState.GetPhyDefense();
-            enemy.currentState.magDefense = enemy.initialState.GetMagDefense();
+            enemy.currentState.phyDefense = enemy.currentState.GetPhyDefense();
+            enemy.currentState.magDefense = enemy.currentState.GetMagDefense();
             // evasion
-            enemy.currentState.hp = enemy.initialState.hp;
+            enemy.currentState.hp = enemy.currentState.GetHealth();
         }
         
-}
+    }
     
     
 }

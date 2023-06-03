@@ -35,6 +35,14 @@ public class PawnState
     public Equipment equippedArmor;
     public Equipment equippedAccessory;
 
+    public int GetHealth()
+    {
+        // level up every 100 exp
+        int level = experience / 100;
+        // get 100 health every level
+        int newHP = level * 100;
+        return newHP;
+    }
     public int GetBaseSpeed()
     {
         return speed;
@@ -86,7 +94,7 @@ public class PawnState
         return newSpeed;
     }
 
-
+    // i guess we need a GetProficiencyCap
     public int GetProficiency(Equipment right = null, Equipment left = null, Equipment helmet = null, Equipment armor = null, Equipment accessory = null)
     {
         int newProficiency = 0;
