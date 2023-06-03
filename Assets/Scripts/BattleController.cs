@@ -106,6 +106,8 @@ public class BattleController : MonoBehaviour
     }
     public void StartBattle()
     {
+        playerTeam = new List<Pawn>();
+        enemyTeam = new List<Pawn>();
         // populate player and enemyteams with dummy 
         Weapon sword = new Weapon();
         sword.offense = 10;
