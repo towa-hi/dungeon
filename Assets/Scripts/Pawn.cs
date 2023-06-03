@@ -15,9 +15,9 @@ public class Pawn
         // this is the pawn constructor. iti s called when a battle actually starts
     }
     // battle stuff here? need ints for temp def, ATB gauge?
-    float ATB
+    public float ATB;
     public int GetEffectiveSpeed()
     {
-        
+        return 0;
     }
 }

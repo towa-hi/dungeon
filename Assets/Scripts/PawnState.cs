@@ -36,11 +36,11 @@ public class PawnState
 
     public int GetBaseSpeed()
     {
-        
+        return 0;
     }
     public int GetEquipmentSpeed(Weapon right = null, Weapon left = null, Helmet helmet = null, Armor armor = null, Accessory accessory = null)
     {
-        int newSpeed = baseSpeed;
+        int newSpeed = GetBaseSpeed();
         if (left != null)
         {
             newSpeed += left.speed;

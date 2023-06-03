@@ -68,10 +68,9 @@ public class BattleController : MonoBehaviour
         leather.pDefense = 1;
         leather.speed = 15;
         
-        PawnState heavy = new PawnState();
-        PawnState light = new PawnState();
+        PawnState warrior = new PawnState();
         Pawn gimli = new Pawn(warrior);
-        Pawn aragorn = new Pawn(light);
+        Pawn aragorn = new Pawn(warrior);
         // apply equipment 
         /* should have a setter function that does this in the "equip" menu */
         gimli.initialState.EquipWeaponRight(sword);
