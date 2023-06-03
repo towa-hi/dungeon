@@ -42,9 +42,13 @@ public class BattleController : MonoBehaviour
     public float timeElapsed = 0f;
     public bool isBattle;
     public float maxATB = 1000;
+    private int inBattle = 0;
     void Update()
     {
-        
+        if (inBattle == 0)
+        {
+            return;
+        }
         // update timeElapsed
         timeElapsed += 1f;
         Debug.Log("timeElapsed: " + timeElapsed);
@@ -106,10 +110,11 @@ public class BattleController : MonoBehaviour
 
     void Start()
     {
-        StartBattle();
     }
     public void StartBattle()
     {
+        playerTeam = new List<Pawn>();
+        enemyTeam = new List<Pawn>();
         // populate player and enemyteams with dummy 
         PawnState testHero = GameController.instance.PawnDictionary[0];
         PawnState testEnemy = GameController.instance.PawnDictionary[100];
@@ -123,8 +128,7 @@ public class BattleController : MonoBehaviour
         Pawn testHeroName = new Pawn(testHero);
         Pawn testEnemyName = new Pawn(testEnemy);
         
-        playerTeam = new List<Pawn>();
-        enemyTeam = new List<Pawn>();
+
         playerTeam.Add(testHeroName);
         enemyTeam.Add(testEnemyName);
         foreach (Pawn hero in playerTeam)
@@ -144,7 +148,8 @@ public class BattleController : MonoBehaviour
             // evasion
             enemy.currentState.hp = enemy.currentState.GetHealth();
         }
-        
+
+        inBattle = 1;
     }
     
     

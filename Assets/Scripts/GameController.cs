@@ -56,6 +56,8 @@ public class GameController : MonoBehaviour
         SaveGame(newGame);
         LoadGame();
         SetState(GameState.Map);
+        
+        BattleController.instance.StartBattle();
     }
 
     public void LoadGameFromMenu()
