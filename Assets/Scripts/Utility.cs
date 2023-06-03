@@ -21,3 +21,9 @@ public enum Stat
     SPEED,
     MAXHP,
 }
+
+public enum Team
+{
+    PLAYER,
+    ENEMY
+}
