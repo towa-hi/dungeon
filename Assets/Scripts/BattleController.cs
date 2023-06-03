@@ -52,24 +52,27 @@ public class BattleController : MonoBehaviour
         {
             player.ATB += player.GetEffectiveSpeed();
             loopPrint += player.initialState.name + " hp: " + player.initialState.hp.ToString() + " speed: " +
-                         player.currentState.speed + "/" + maxATB + "/n";
+                         player.currentState.speed.ToString() + "/" + maxATB.ToString() + "/n";
             if (player.ATB >= maxATB)
             {
                 // select random target to attack
                 doAttack(player, selectRandomTarget(enemyTeam));
+                loopPrint += player.initialState.name + " attacks " + enemyTeam[0].initialState.name + "/n";
             }
         }
 
         foreach (Pawn enemy in enemyTeam)
         {
             loopPrint += enemy.initialState.name + " hp: " + enemy.initialState.hp.ToString() + " speed: " +
-                         enemy.currentState.speed + "/" + maxATB + "/n";
+                         enemy.currentState.speed.ToString() + "/" + maxATB.ToString() + "/n";
             enemy.ATB += enemy.GetEffectiveSpeed();
             if (enemy.ATB >= maxATB)
             {
                 doAttack(enemy, selectRandomTarget(playerTeam));
             }
         }
+
+        Debug.Log(loopPrint);
     }
 
     /* Create a list of targets
@@ -131,6 +134,19 @@ public class BattleController : MonoBehaviour
         PawnState lightFighter = new PawnState();
         PawnState rat = new PawnState();
         PawnState orc = new PawnState();
+        // set base stats
+        heavyFighter.speed = 5;
+        heavyFighter.hp = 100;
+        heavyFighter.proficiencyCap = 200;
+        lightFighter.speed = 20;
+        lightFighter.hp = 100;
+        lightFighter.proficiencyCap = 200;
+        rat.speed = 10;
+        rat.hp = 30;
+        rat.proficiencyCap = 200;
+        orc.speed = 1;
+        orc.hp = 300;
+        orc.proficiencyCap = 200;
         // apply equipment 
         heavyFighter.EquipWeaponRight(sword);
         heavyFighter.EquipHelmet(plateHelm);
@@ -140,15 +156,6 @@ public class BattleController : MonoBehaviour
         lightFighter.EquipArmor(leather);
         rat.EquipWeaponRight(teeth);
         orc.EquipWeaponRight(club);
-        // set base stats
-        heavyFighter.speed = 5;
-        heavyFighter.hp = 100;
-        lightFighter.speed = 20;
-        lightFighter.hp = 100;
-        rat.speed = 10;
-        rat.hp = 30;
-        orc.speed = 1;
-        orc.hp = 300;
         // make them real pawns
         Pawn gimli = new Pawn(heavyFighter);
         Pawn aragorn = new Pawn(lightFighter);
