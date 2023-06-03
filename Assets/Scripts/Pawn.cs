@@ -15,9 +15,11 @@ public class Pawn
         // this is the pawn constructor. iti s called when a battle actually starts
     }
     // battle stuff here? need ints for temp def, ATB gauge?
-    public float ATB;
+    public float ATB = 0;
     public int GetEffectiveSpeed()
     {
+        int newSpeed = initialState.GetBaseSpeed();
+        newSpeed += initialState.GetEquipmentSpeed();
         return 0;
     }
 }

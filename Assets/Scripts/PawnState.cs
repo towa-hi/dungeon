@@ -10,6 +10,7 @@ public class PawnState
     public string name;
     public Team team;
     public int experience;
+    public int hp;
     public int baseSpeed;
     public int speed;
     public int speedCap;
@@ -37,11 +38,11 @@ public class PawnState
 
     public int GetBaseSpeed()
     {
-        return 0;
+        return speed;
     }
     public int GetEquipmentSpeed(Weapon right = null, Weapon left = null, Helmet helmet = null, Armor armor = null, Accessory accessory = null)
     {
-        int newSpeed = GetBaseSpeed();
+        int newSpeed = 0;
         if (left != null)
         {
             newSpeed += left.speed;
