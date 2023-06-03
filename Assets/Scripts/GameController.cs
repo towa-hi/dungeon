@@ -56,34 +56,11 @@ public class GameController : MonoBehaviour
         MapController.instance.Initialize();
         MapController.instance.LoadFloor(0);
         Debug.Log("game started");
-        // load all pawn and item defs
-        
-        PawnData[] allPlayerPawns = (PawnData[])Resources.LoadAll<PawnData>("Data/PawnData/Player");
-        PawnData[] allEnemyPawns = (PawnData[])Resources.LoadAll<PawnData>("Data/PawnData/Enemy");
-        List<PawnData> allPawns = new List<PawnData>();
-        allPawns.AddRange(allPlayerPawns);
-        allPawns.AddRange(allEnemyPawns);
-        foreach (PawnData pawnData in allPawns)
-        {
-            PawnState pawn = new PawnState();
-            pawn.id = pawnData.id;
-            pawn.name = pawnData.name;
-            pawn.team = pawnData.team;
-            pawn.experience = pawnData.experience;
-            if (ItemDictionary.ContainsKey(pawnData.id))
-            {
-                Debug.LogError("Duplicate pawn id encountered: " + pawnData.id + "name: " + pawnData.name + " other name" + ItemDictionary[pawnData.id].itemName);
-                continue;
-            }
-            PawnDictionary.Add(pawn.id, pawn);
-            Debug.Log("loaded pawn " + pawn.id);
-            pawn.afflictedStatuses = new List<Status>();
-        }
-
-        EquipmentData[] AllAccessories = (EquipmentData[])Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/AccessoryData");
-        EquipmentData[] AllArmor = (EquipmentData[])Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/ArmorData");
-        EquipmentData[] AllHelmets = (EquipmentData[])Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/HelmetData");
-        EquipmentData[] AllWeapons = (EquipmentData[])Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/WeaponData");
+        // load equipment
+        EquipmentData[] AllAccessories = Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/AccessoryData");
+        EquipmentData[] AllArmor = Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/ArmorData");
+        EquipmentData[] AllHelmets = Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/HelmetData");
+        EquipmentData[] AllWeapons = Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/WeaponData");
         List<EquipmentData> allEquipment = new List<EquipmentData>();
         allEquipment.AddRange(AllAccessories);
         allEquipment.AddRange(AllArmor);
@@ -114,9 +91,38 @@ public class GameController : MonoBehaviour
             Debug.Log("loaded equipment " + equipment.id);
         }
         
+        // load all pawn and item defs
+        
+        PawnData[] allPlayerPawns = (PawnData[])Resources.LoadAll<PawnData>("Data/PawnData/Player");
+        PawnData[] allEnemyPawns = (PawnData[])Resources.LoadAll<PawnData>("Data/PawnData/Enemy");
+        List<PawnData> allPawns = new List<PawnData>();
+        allPawns.AddRange(allPlayerPawns);
+        allPawns.AddRange(allEnemyPawns);
+        foreach (PawnData pawnData in allPawns)
+        {
+            PawnState pawn = new PawnState();
+            pawn.id = pawnData.id;
+            pawn.name = pawnData.name;
+            pawn.team = pawnData.team;
+            pawn.experience = pawnData.experience;
+            Equipment unarmed = (Equipment)ItemDictionary[500];
+            pawn.EquipWeaponLeft(unarmed);
+            pawn.EquipWeaponRight(unarmed);
+            if (ItemDictionary.ContainsKey(pawnData.id))
+            {
+                Debug.LogError("Duplicate pawn id encountered: " + pawnData.id + "name: " + pawnData.name + " other name" + ItemDictionary[pawnData.id].itemName);
+                continue;
+            }
+            PawnDictionary.Add(pawn.id, pawn);
+            Debug.Log("loaded pawn " + pawn.id);
+            pawn.afflictedStatuses = new List<Status>();
+        }
+
+        
         SerializedGameState newGame = SerializedGameState.CreateNew();
         SaveGame(newGame);
         LoadGame();
+        
 
     }
     public void SetState(GameState newState)

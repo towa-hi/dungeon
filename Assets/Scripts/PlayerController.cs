@@ -28,8 +28,6 @@ public class PlayerController : MonoBehaviour
 
         ins = this;
         
-        //make the gameobject for this persist across scenes
-        DontDestroyOnLoad(this.gameObject);
     }
     // Start is called before the first frame update
     void Start()

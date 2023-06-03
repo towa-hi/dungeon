@@ -166,7 +166,7 @@ public class PawnState
     // items can add max speed, defense, evasion. there should be a base value used instead of 0 in the above funcs
     public bool EquipWeaponRight(Equipment rightWeapon)
     {
-        if (GetProficiency(right: rightWeapon) < proficiencyCap)
+        if (GetProficiency(right: rightWeapon) <= proficiencyCap)
         {
             equippedRight = rightWeapon;
             return true;
@@ -179,7 +179,7 @@ public class PawnState
     }
     public bool EquipWeaponLeft(Equipment leftWeapon)
     {
-        if (GetProficiency(left: leftWeapon) < proficiencyCap)
+        if (GetProficiency(left: leftWeapon) <= proficiencyCap)
         {
             equippedLeft = leftWeapon;
             return true;
