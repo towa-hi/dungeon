@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
     void StartGame()
     {
         MapController.instance.Initialize();
-        MapController.instance.LoadFloor(0);
+        MapController.instance.LoadFloor(1);
         Debug.Log("game started");
 
     }

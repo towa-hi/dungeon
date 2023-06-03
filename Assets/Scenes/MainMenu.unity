@@ -306,6 +306,7 @@ MonoBehaviour:
   currentFloor: {fileID: 0}
   floorList:
   - {fileID: 4624441759059501219}
+  - {fileID: 0}
 --- !u!1 &1321960759
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,6 +656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2025018344}
   - component: {fileID: 2025018345}
+  - component: {fileID: 2025018346}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -690,6 +692,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 1336869524}
+--- !u!114 &2025018346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025018343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d24ef46cd3e014ba5e1660a13e6dd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeElapsed: 0
+  isBattle: 0
 --- !u!1001 &4624441759059501217
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -701,6 +717,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172688923869001785, guid: 32e9d77b03fbbff44acc0632b0a6dd0a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2560826196081733086, guid: 32e9d77b03fbbff44acc0632b0a6dd0a,
         type: 3}
