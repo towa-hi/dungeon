@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,6 +13,7 @@ public class FormPanel : MonoBehaviour
     public Image heart1;
     public Image heart2;
     public Image heart3;
+    public List<Image> hearts;
     public TextMeshProUGUI manaValue;
     public TextMeshProUGUI formName;
     public bool initialized = false;
@@ -20,9 +22,40 @@ public class FormPanel : MonoBehaviour
         this.initialized = true;
         this.form = form;
         squibby.sprite = form.formSprite;
+        UpdateHearts(form.maxHp, form.maxHp);
+    }
+
+    public void UpdateHearts(int maxHp, int remainingHp)
+    {
+        hearts = new List<Image>();
+        hearts.Add(heart1);
+        hearts.Add(heart2);
+        hearts.Add(heart3);
+        if (remainingHp == 0)
+        {
+            heart1.color = Color.white;
+            // dead, game over
+            Debug.Log("game over!");
+        }
+        else if (remainingHp > maxHp)
+        {
+            // something wrong
+            Debug.LogError("remaining HP too high!");
+        }
+
+        for (int x = 0; x < remainingHp; x++)
+        {
+            hearts[x].enabled = true;
+            hearts[x].color = Color.red;
+        }
+
+        for (int x = maxHp - 1; x >= remainingHp; x--)
+        {
+            hearts[x].enabled = true;
+            hearts[x].color = Color.white;
+        }
         
     }
-    
     // Start is called before the first frame update
     void Start()
     {
