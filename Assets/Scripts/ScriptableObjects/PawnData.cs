@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Pawn", menuName = "Data/Pawn")]
 public class PawnData : ScriptableObject
 {
+    // PawnData should contain data for the initial starting conditions of that pawn 
     public int id;
     public string name;
     public Team team;

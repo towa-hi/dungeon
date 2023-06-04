@@ -72,8 +72,6 @@ public class GameController : MonoBehaviour
     {
         ItemDictionary = new Dictionary<int, Item>();
         PawnDictionary = new Dictionary<int, PawnState>();
-        MapController.instance.Initialize();
-        MapController.instance.LoadFloor(0);
         Debug.Log("game started");
         // load equipment
         EquipmentData[] AllAccessories = Resources.LoadAll<EquipmentData>("Data/ItemData/EquipmentData/AccessoryData");
@@ -141,6 +139,12 @@ public class GameController : MonoBehaviour
             pawn.afflictedStatuses = new List<Status>();
         }
     }
+
+    void Update()
+    {
+        
+    }
+    
     public void SetState(GameState newState)
     {
         state = newState;
@@ -175,7 +179,9 @@ public class GameController : MonoBehaviour
         SerializedGameState loadedGame = JsonUtility.FromJson<SerializedGameState>(fileContents);
         Debug.Log("loaded save file at " + savePath);
         gameState = loadedGame;
-
+        
+        MapController.instance.Initialize();
+        MapController.instance.LoadFloor(gameState.floor);
     }
     
     public void SaveGame(SerializedGameState saveGame)
