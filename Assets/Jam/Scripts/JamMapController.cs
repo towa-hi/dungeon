@@ -111,11 +111,12 @@ public class JamMapController : MonoBehaviour
     public void NextTurn()
     {
         
+        Debug.Log("turn " + turnIndex + " has ended");
         turnIndex += 1;
-        Debug.Log("turn: " + turnIndex);
     }
 
     public bool awaitingTurn = false;
+    
     void Update()
     {
         if (!initialized)
@@ -128,13 +129,18 @@ public class JamMapController : MonoBehaviour
             turnIndex = 0;
             Debug.Log("all turns finished, resetting");
         }
+        // get the entity whos turn it is
         JamEntity entity = entityList[turnIndex];
+        // if tne entity is a player, do nothing just wait for input
         if (entity.isPlayer)
         {
+            awaitingTurn = true;
             //await input
         }
         else
         {
+            awaitingTurn = false;
+            // make AI do their turn
             MoveAI(entity);
         }
     }

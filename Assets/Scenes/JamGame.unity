@@ -2449,6 +2449,8 @@ MonoBehaviour:
     type: 3}
   enemyPrefab: {fileID: 3377583610352090350, guid: 06296c392012b3c4cb3ed63e3475761d,
     type: 3}
+  movement: {fileID: -3705297760805195145, guid: bdfefec529422a54295170dcde278d4c,
+    type: 3}
 --- !u!114 &1227500885 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5746557890152477551, guid: 1eaf498ba0f00c841aca3a1d72198a14,
@@ -2952,7 +2954,10 @@ MonoBehaviour:
   - {fileID: 622076059}
   - {fileID: 1536860993}
   - {fileID: 1781918854}
+  turnIndex: 0
   entityList: []
+  playerEntity: {fileID: 0}
+  awaitingTurn: 0
 --- !u!114 &1536860993 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3694786903575319787, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,

@@ -431,6 +431,7 @@ GameObject:
   - component: {fileID: 9201022346898844450}
   - component: {fileID: 5446637310515684454}
   - component: {fileID: 2180788988296259749}
+  - component: {fileID: 2851341883144434744}
   m_Layer: 0
   m_Name: mana
   m_TagString: Untagged
@@ -519,6 +520,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 5446637310515684454}
   mainCamera: {fileID: 0}
+--- !u!114 &2851341883144434744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5483515166750999321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd935ac429139b247b1c65570989f8e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  magnitude: 0.1
 --- !u!1 &5497408649691670540
 GameObject:
   m_ObjectHideFlags: 0
