@@ -22,6 +22,9 @@ public class FormPanel : MonoBehaviour
         this.initialized = true;
         this.form = form;
         squibby.sprite = form.formSprite;
+        heart1.enabled = false;
+        heart2.enabled = false;
+        heart3.enabled = false;
         UpdateHearts(form.maxHp, form.maxHp);
     }
 
@@ -33,7 +36,6 @@ public class FormPanel : MonoBehaviour
         hearts.Add(heart3);
         if (remainingHp == 0)
         {
-            heart1.color = Color.white;
             // dead, game over
             Debug.Log("game over!");
         }
