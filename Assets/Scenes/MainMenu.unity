@@ -289,6 +289,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1855033251}
   playerPos: {x: 0, y: 0, z: 0}
   grid: {fileID: 1033244447}
+  movement: {fileID: -3705297760805195145, guid: bdfefec529422a54295170dcde278d4c,
+    type: 3}
 --- !u!1 &1033244445
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +833,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 1336869524}
+  state: 0
+  gameState:
+    money: 0
+    leaderPawnId: 0
+    totalVisitedTiles: 0
+    floor: 0
+    playerPos: {x: 0, y: 0, z: 0}
+    allPlayerPawns: []
+    pawnsInParty: 
+    inventory: []
 --- !u!114 &2025018346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,6 +857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeElapsed: 0
   isBattle: 0
+  maxATB: 1000
 --- !u!1001 &83987663413687777
 PrefabInstance:
   m_ObjectHideFlags: 0
