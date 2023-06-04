@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class JamPlayerController : MonoBehaviour
 {
+    public Sprite playerSprite;
+    
+    public void Initialize()
+    {
+        
+    }
     // Start is called before the first frame update
     void Start()
     {

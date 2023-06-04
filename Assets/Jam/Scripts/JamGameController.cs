@@ -13,6 +13,7 @@ public class JamGameController : MonoBehaviour
     public int roomNumber;
     public FormDef currentForm;
 
+    public JamPlayerController playerController;
     public JamMapController mapController;
     public Dictionary<Vector2Int, FormDef> formData;
 
