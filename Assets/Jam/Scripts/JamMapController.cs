@@ -11,14 +11,31 @@ public class JamMapController : MonoBehaviour
     public GameObject cellPrefab;
     public JamLevel currentLevel;
     public List<JamLevel> levelList = new List<JamLevel>();
+    
+    
+    public List<JamEntity> entityList;
+    
     public void Initialize(int levelNumber)
     {
         foreach (JamLevel level in levelList)
         {
             level.gameObject.SetActive(false);
         }
-
+        
+        ClearEntityList();
         currentLevel = levelList[levelNumber];
+        
         currentLevel.Initialize();
+        
     }
+
+    public void ClearEntityList()
+    {
+        foreach (JamEntity entity in entityList)
+        {
+            Destroy(entity.gameObject);
+        }
+        entityList = new List<JamEntity>();
+    }
+    
 }

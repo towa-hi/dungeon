@@ -10,7 +10,7 @@ public class JamLevel : MonoBehaviour
     public Vector2Int exitDir;
     public Dictionary<Vector2Int, JamCell> cellDictionary;
     public Grid grid;
-
+    
     void Start()
     {
         
@@ -40,6 +40,19 @@ public class JamLevel : MonoBehaviour
                 }
                 spawnPos = cell.pos;
                 spawnFound = true;
+                // spawn player
+                GameObject playerPrefab = Instantiate(JamGameController.instance.playerController.playerPrefab, JamGameController.instance.playerController.transform);
+                JamEntity player = playerPrefab.GetComponent<JamEntity>();
+                JamGameController.instance.mapController.entityList.Add(player);
+                MoveEntity(player, spawnPos);
+            }
+
+            if (cell.isMonsterSpawn)
+            {
+                GameObject enemyPrefab = Instantiate(JamGameController.instance.playerController.enemyPrefab,  JamGameController.instance.playerController.transform);
+                JamEntity enemy = enemyPrefab.GetComponent<JamEntity>();
+                JamGameController.instance.mapController.entityList.Add(enemy);
+                MoveEntity(enemy, cell.pos);
             }
 
             if (cell.isExit)
@@ -51,12 +64,21 @@ public class JamLevel : MonoBehaviour
 
                 exitPos = cell.pos;
                 exitDir = cell.exitDirection;
+                exitFound = true;
                 if (exitDir == Vector2Int.zero)
                 {
                     Debug.LogError("exit direction cant be 0");
                 }
             }
+            
         }
-        
+
     }
+    
+    public void MoveEntity(JamEntity entity, Vector2Int pos)
+    {
+        entity.pos = pos;
+        entity.transform.position = grid.CellToWorld((Vector3Int)pos);
+    }
+    
 }

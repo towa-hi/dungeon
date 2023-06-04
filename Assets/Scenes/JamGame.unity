@@ -204,6 +204,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1408326714}
     m_Modifications:
+    - target: {fileID: 819475172471549509, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2214250750145810925, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
         type: 3}
       propertyPath: m_IsActive
@@ -353,6 +358,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 819475172353852100, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2214250748720934736, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
         type: 3}
       propertyPath: m_IsActive
@@ -457,6 +467,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7126629326588114145, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7126629327895572476, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7287555338688109277, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
         type: 3}
@@ -2390,6 +2410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1102873940}
+  - component: {fileID: 1102873941}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -2412,6 +2433,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1102873941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102873939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4634377a7f6b344a81925954580a771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 292662940171409789, guid: b381b2f9990dec840ab931df09f778ed,
+    type: 3}
+  enemyPrefab: {fileID: 3377583610352090350, guid: 06296c392012b3c4cb3ed63e3475761d,
+    type: 3}
 --- !u!114 &1227500885 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5746557890152477551, guid: 1eaf498ba0f00c841aca3a1d72198a14,
@@ -2844,6 +2881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e15765cc8802f4197b9beeadd91764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
 --- !u!1 &1408326713
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,6 +2952,7 @@ MonoBehaviour:
   - {fileID: 622076059}
   - {fileID: 1536860993}
   - {fileID: 1781918854}
+  entityList: []
 --- !u!114 &1536860993 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3694786903575319787, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
@@ -3302,18 +3341,19 @@ MonoBehaviour:
   currentStars: 0
   currentMana: 0
   roomNumber: 0
+  playerController: {fileID: 1102873941}
   mapController: {fileID: 1408326716}
   infoPanel: {fileID: 126696738}
   selectPanel: {fileID: 1401809741}
-  liaSprite: {fileID: 0}
-  nasaSprite: {fileID: 0}
-  pippaSprite: {fileID: 0}
-  tenmaSprite: {fileID: 0}
-  ioriSprite: {fileID: 0}
-  urukaSprite: {fileID: 0}
-  michiruSprite: {fileID: 0}
-  lumiSprite: {fileID: 0}
-  muumiSprite: {fileID: 0}
+  liaSprite: {fileID: 21300000, guid: ff1304effd4dd624ba4c86ddcd218b0b, type: 3}
+  nasaSprite: {fileID: 21300000, guid: 7638b3f1bca477b40b864972d86e3400, type: 3}
+  pippaSprite: {fileID: 21300000, guid: a0234f52a13e86243a0de288376d1220, type: 3}
+  tenmaSprite: {fileID: 21300000, guid: 6c7a5818bf734d048b07879734baa94b, type: 3}
+  ioriSprite: {fileID: 21300000, guid: 78f2beb9bcb984946884ee1614e92123, type: 3}
+  urukaSprite: {fileID: 21300000, guid: 312c63f9bccdc634a8e29af7728a15a3, type: 3}
+  michiruSprite: {fileID: 21300000, guid: 83647a5892a0a454a8cd019dae1ed319, type: 3}
+  lumiSprite: {fileID: 21300000, guid: 958d1777dd520014c8562364146ce000, type: 3}
+  muumiSprite: {fileID: 21300000, guid: b123f02755771a8408fdf82265052506, type: 3}
 --- !u!4 &1737427227
 Transform:
   m_ObjectHideFlags: 0
@@ -4164,6 +4204,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 819475171060445353, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 819475172052159461, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5135800870876016082, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
         type: 3}
       propertyPath: m_Name
@@ -4172,7 +4222,7 @@ PrefabInstance:
     - target: {fileID: 5135800870876016082, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5135800870876016093, guid: 0b8d40f6a2076e84d8668e3cf7cc8e96,
         type: 3}

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class JamPlayerController : MonoBehaviour
 {
-    public Sprite playerSprite;
-    
+    public GameObject playerPrefab;
+    public GameObject enemyPrefab;
     public void Initialize()
     {
         

@@ -19,7 +19,7 @@ public class JamGameController : MonoBehaviour
 
     public InfoPanel infoPanel;
     public PlayerSelectPanel selectPanel;
-    
+
     public Sprite liaSprite;
     public Sprite nasaSprite;
     public Sprite pippaSprite;
@@ -67,18 +67,20 @@ public class JamGameController : MonoBehaviour
         formData.Add(lumi.formId,lumi);
         FormMuumi muumi = new FormMuumi();
         formData.Add(muumi.formId,muumi);
-        
+
+        playerController.Initialize();
         mapController.Initialize(0);
         infoPanel.Initialize();
         selectPanel.Initialize();
     }
+
 
     public void NextLevel()
     {
         mapController.Initialize(mapController.currentLevel.levelNumber + 1);
     }
 
-    public void PopulateForms()
+    public void RegisterEntity(Vector2Int pos)
     {
         
     }

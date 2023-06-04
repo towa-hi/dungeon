@@ -9,6 +9,7 @@ public class MapController : MonoBehaviour
     public static MapController instance {get{return ins;}
     }
     [SerializeField] public GameObject cellContainer;
+    
     [SerializeField] public GameObject cellPrefab;
     [SerializeField] public Floor currentFloor;
     [SerializeField] public List<Floor> floorList;
