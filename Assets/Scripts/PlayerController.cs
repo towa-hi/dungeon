@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         this.playerPos = gridPos;
         transform.position = grid.CellToWorld(gridPos);
+        
     }
     
     

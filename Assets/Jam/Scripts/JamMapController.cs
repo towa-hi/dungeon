@@ -46,10 +46,62 @@ public class JamMapController : MonoBehaviour
     {
         Vector2Int dir = new Vector2Int((int)direction.x,(int)direction.y);
         JamEntity entity = playerEntity;
-        currentLevel.MoveEntity(entity, entity.pos + dir);
-        NextTurn();
+        Vector2Int destination = entity.pos + dir;
+        if (CanMove(entity.pos, dir))
+        {
+            currentLevel.MoveEntity(entity, destination);
+            NextTurn();
+        }
+        else
+        {
+            Debug.Log("could not move player to " + destination);
+        }
     }
 
+    public bool CanMove(Vector2Int origin, Vector2Int direction)
+    {
+        Vector2Int destination = origin + direction;
+        JamCell originCell = currentLevel.cellDictionary[origin];
+        if (!currentLevel.cellDictionary.ContainsKey(destination))
+        {
+            return false;
+        }
+        JamCell destinationCell = currentLevel.cellDictionary[destination];
+        // what obstructions do we look for
+        if (direction == Vector2Int.up)
+        {
+            // check origin tile for up wall
+            if (originCell.hasUpWall)
+            {
+                return false;
+            }
+        }
+        if (direction == Vector2Int.right)
+        {
+            if (originCell.hasRightWall)
+            {
+                return false;
+            }
+        }
+        if (direction == Vector2Int.down)
+        {
+            if (destinationCell.hasUpWall)
+            {
+                return false;
+            }
+        }
+        if (direction == Vector2Int.left)
+        {
+            if (destinationCell.hasRightWall)
+            {
+                return false;
+            }
+        }
+        
+        
+        return true;
+    }
+    
     public void MoveAI(JamEntity enemy)
     {
         //decide what tile the AI moves to
