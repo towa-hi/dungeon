@@ -43,6 +43,7 @@ public class JamLevel : MonoBehaviour
                 // spawn player
                 GameObject playerPrefab = Instantiate(JamGameController.instance.playerController.playerPrefab, JamGameController.instance.playerController.transform);
                 JamEntity player = playerPrefab.GetComponent<JamEntity>();
+                JamGameController.instance.mapController.playerEntity = player;
                 JamGameController.instance.mapController.entityList.Add(player);
                 MoveEntity(player, spawnPos);
             }
