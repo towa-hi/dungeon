@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,18 +30,55 @@ public class PlayerController : MonoBehaviour
         }
 
         ins = this;
-        
+        controls = new MapInput();
     }
+
+    private void OnEnable()
+    {
+        controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable();
+    }
+    [SerializeField]
+    private InputActionReference movement;
+    
     // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main;
+        controls.Map.Movement.performed += ctx => Move(ctx.ReadValue<Vector2>());
     }
 
+    void Move(Vector2 direction)
+    {
+        transform.position += new Vector3(direction.x, 0, direction.y);
+        if (CanMove(direction))
+        {
+            
+        }
+    }
+
+    bool CanMove(Vector2 direction)
+    {
+        Vector3Int pos = playerPos + grid.WorldToCell(transform.position + (Vector3)direction);
+        Tilemap tilemap = MapController.instance.currentFloor.floorTilemap;
+        if (tilemap.HasTile(pos))
+        {
+            return false;
+        }
+
+        return true;
+    }
+    private MapInput controls;
+    
     // Update is called once per frame
     void Update()
     {
-        
+        Vector2 movementInput = movement.action.ReadValue<Vector2>();
+        Debug.Log(movementInput);
     }
 
     private void LateUpdate()
