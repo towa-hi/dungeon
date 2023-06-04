@@ -78,7 +78,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Vector2 movementInput = movement.action.ReadValue<Vector2>();
-        Debug.Log(movementInput);
     }
 
     private void LateUpdate()
