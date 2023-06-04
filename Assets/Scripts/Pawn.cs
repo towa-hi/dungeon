@@ -18,7 +18,8 @@ public class Pawn
     public float ATB = 0;
     public int GetEffectiveSpeed()
     {
-        int newSpeed = currentState.GetBaseSpeed();
+        int newSpeed = 0;
+        newSpeed += currentState.GetBaseSpeed();
         newSpeed += currentState.GetEquipmentSpeed();
         return newSpeed;
     }

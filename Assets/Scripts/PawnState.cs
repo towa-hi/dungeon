@@ -43,13 +43,28 @@ public class PawnState
         int newHP = level * 100;
         return newHP;
     }
+
+    public int GetSpeed()
+    {
+        //calculate level
+        //lookup table for speed
+        //return
+        return 0;
+    }
+
+    public int GetLevel()
+    {
+        //lookup table
+        // return int
+        return 0;
+    }
     // player specific fields
 
     public Sprite mapSprite;
     
     public int GetBaseSpeed()
     {
-        return speed;
+        return baseSpeed;
     }
     public int GetEquipmentSpeed(Equipment right = null, Equipment left = null, Equipment helmet = null, Equipment armor = null, Equipment accessory = null)
     {

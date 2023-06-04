@@ -15,7 +15,8 @@ MonoBehaviour:
   id: 100
   name: TestEnemy
   team: 1
-  experience: 0
-  baseSpeed: 0
+  experience: 2000
+  baseSpeed: 5
   speed: 0
   speedCap: 0
+  mapSprite: {fileID: 0}

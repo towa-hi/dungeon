@@ -56,6 +56,7 @@ public class BattleController : MonoBehaviour
         foreach (Pawn player in playerTeam)
         {
             player.ATB += (float)player.GetEffectiveSpeed();
+            Debug.Log("player speed is " + player.GetEffectiveSpeed().ToString());
             loopPrint += player.initialState.name + " hp: " + player.initialState.hp.ToString() + 
                          " speed: " + player.ATB + "/" + maxATB + "\n";
             if (player.ATB >= maxATB)
@@ -134,7 +135,7 @@ public class BattleController : MonoBehaviour
         foreach (Pawn hero in playerTeam)
         {
             // these should be a function huh
-            hero.currentState.speed = hero.GetEffectiveSpeed();
+            //hero.currentState.speed = hero.GetEffectiveSpeed();
             hero.currentState.phyDefense = hero.currentState.GetPhyDefense();
             hero.currentState.magDefense = hero.currentState.GetMagDefense();
             // get evasion too
@@ -142,7 +143,7 @@ public class BattleController : MonoBehaviour
         }
         foreach (Pawn enemy in enemyTeam)
         {
-            enemy.currentState.speed = enemy.GetEffectiveSpeed();
+            //enemy.currentState.speed = enemy.GetEffectiveSpeed();
             enemy.currentState.phyDefense = enemy.currentState.GetPhyDefense();
             enemy.currentState.magDefense = enemy.currentState.GetMagDefense();
             // evasion
