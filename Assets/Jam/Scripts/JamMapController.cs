@@ -131,7 +131,6 @@ public class JamMapController : MonoBehaviour
             }
         }
         
-        
         return true;
     }
     public bool NoWalls(Vector2Int origin, Vector2Int direction)
@@ -180,19 +179,30 @@ public class JamMapController : MonoBehaviour
     }
     public void MoveAI(JamEntity enemy)
     {
-        //decide what tile the AI moves to
-        Vector2Int dir = ChasePlayer(enemy.pos);
-        // Vector2Int dir = (next - enemy.pos);
-        Debug.Log("I am at " + enemy.pos.ToString() + " and want to move dir " + dir.ToString() + " in the direction " + dir.ToString());
-        if (CanMove(enemy.pos, dir))
+        // see if the enemy can attack
+        if (GetAdjacentRooms(enemy.pos).Contains(playerEntity.pos))
         {
-            currentLevel.MoveEntity(enemy, enemy.pos + dir);
+            Debug.Log("attack!!!!");
         }
         else
         {
-            Debug.Log("wrong move!!");
+            //decide what tile the AI moves to
+            Vector2Int dir = ChasePlayer(enemy.pos);
+            Debug.Log("I am at " + enemy.pos.ToString() + " going in the direction " + dir.ToString());
+            if (dir == Vector2Int.zero)
+            {
+                Debug.Log("going nowhere");
+            }
+            else if (CanMove(enemy.pos, dir))
+            {
+                currentLevel.MoveEntity(enemy, enemy.pos + dir);
+            }
+            else
+            {
+                Debug.Log("wrong move!!");
+            }
         }
-
+        
         NextTurn();
     }
 
@@ -233,7 +243,7 @@ public class JamMapController : MonoBehaviour
     {
         foreach (Vector2Int room in GetAdjacentRooms(start))
         {
-            Debug.Log("I see value of " + room.ToString() + " as " + weights[room] + " comparing to " + value.ToString());
+            // Debug.Log("I see value of " + room.ToString() + " as " + weights[room] + " comparing to " + value.ToString());
             if (weights[room] > value)
             {
                 weights[room] = value;
@@ -248,69 +258,36 @@ public class JamMapController : MonoBehaviour
         weights[destination] = 0;
         AssignWeights(destination, 1);
         int min = 100;
-        Vector2Int output = new Vector2Int();
-        foreach (Vector2Int room in GetAdjacentRooms(start))
+        Vector2Int choice = new Vector2Int();
+        List<Vector2Int> rooms = GetAdjacentRooms(start);
+        bool picked = false;
+        foreach (Vector2Int room in rooms)
         {
-            if (weights[room] < min)
+            // only pick rooms where there is not currently an enemy
+            Debug.Log("check room " + room.ToString());
+            if (!IsEnemyAtLocation(room))
             {
-                min = weights[room];
-                output = room;
+                if ((weights[room] < min))
+                {
+                    min = weights[room];
+                    choice = room;
+                    picked = true;
+                }
             }
         }
-        /*
-        Vector2Int destination = playerEntity.pos;
-        List<Vector2Int> F = new List<Vector2Int>(); // should contain all cells?
-        int heuristicEstimate = 10;
-        int flimit = heuristicEstimate;
-        bool found = false;
-        while ((found == false) && (F.Count > 0))
-        {
-            int fmin = 1000;
-            // length
-            foreach (Vector2Int node in F)
-            {
-                (g, parent) = C[node];
-                estimate = g + h(node);
-                if (estimate > flimit)
-                {
-                    fmin = min(estimate, fmin);
-                    continue;
-                }
-                if (node == destination)
-                {
-                    found = true;
-                    break;
-                }
-                foreach (child in node)
-                {
-                    g_child = g + cost(node, child);
-                    if (C[child] != null)
-                    {
-                        (g_cached, parent) = C[child];
-                        if (g_child >= g_cached)
-                        {
-                            continue;
-                        }
-                    }
-                    if (child in F)
-                    {
-                        remove child from F;
-                    }
-                    insert child in F past node;
-                    C[child] = (g_child, node);
-                }
-                remove node from F;
-            }
 
-            flimit = fmin;
-        }
-        if reachedgoal == true;
+        if (!picked)
         {
-            reverse_path(goal);
+            return Vector2Int.zero;
         }
-        return destination;
-        */
-        return (output - start);
+
+        Vector2Int output = (choice - start);
+        if (output.magnitude != 1.0)
+        {
+            Debug.Log("WRONG WRONG BAD WRONG, choice was " + choice.ToString() + " out of " + rooms.ToString());
+        }
+        
+        return output;
     }
 
     public void NextTurn()
