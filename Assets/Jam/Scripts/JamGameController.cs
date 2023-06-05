@@ -154,6 +154,7 @@ public class FormLia : FormDef
 {
     public FormLia()
     {
+        // fast
         formId =  new Vector2Int(0, 0);
         formSprite = JamGameController.instance.liaSprite;
         formName = "Lia";
@@ -164,9 +165,64 @@ public class FormLia : FormDef
 
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+        }
     }
-    
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedTile = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedTile)
+            {
+                attackedTiles.Add(attackedTile);
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedTile = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedTile)
+            {
+                attackedTiles.Add(attackedTile);
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedTile = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedTile)
+            {
+                attackedTiles.Add(attackedTile);
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedTile = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedTile)
+            {
+                attackedTiles.Add(attackedTile);
+            }
+        }
+
+        return attackedTiles;
+    }
     public override void Attack()
     {
         

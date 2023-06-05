@@ -176,4 +176,16 @@ public class JamMapController : MonoBehaviour
     {
         JamGameController.instance.NextLevel();
     }
+
+    public JamCell GetCell(Vector2Int pos)
+    {
+        if (currentLevel.cellDictionary.ContainsKey(pos))
+        {
+            return currentLevel.cellDictionary[pos];
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

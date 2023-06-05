@@ -92,11 +92,35 @@ public class JamCell : MonoBehaviour
         mana.SetActive(false);
     }
 
-    public void SetSignDirection(bool up, bool down, bool right, bool left)
+    public void ClearSigns()
     {
-        upArrow.SetActive(up);
-        downArrow.SetActive(down);
-        rightArrow.SetActive(right);
-        leftArrow.SetActive(left);
+        upArrow.SetActive(false);
+        downArrow.SetActive(false);
+        rightArrow.SetActive(false);
+        leftArrow.SetActive(false);
+    }
+    public void SetSignDirection(Vector2Int dir)
+    {
+        if (dir == Vector2Int.up)
+        {
+            upArrow.SetActive(true);
+        }
+
+        if (dir == Vector2Int.down)
+        {
+            downArrow.SetActive(true);
+
+        }
+
+        if (dir == Vector2Int.right)
+        {
+            rightArrow.SetActive(true);
+
+        }
+
+        if (dir == Vector2Int.left)
+        {
+            leftArrow.SetActive(true);
+        }
     }
 }
