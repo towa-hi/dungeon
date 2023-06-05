@@ -35,6 +35,15 @@ public partial class @MapInput : IInputActionCollection2, IDisposable
                     ""processors"": ""NormalizeVector2"",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Z target"",
+                    ""type"": ""Button"",
+                    ""id"": ""7526eba1-a698-46d8-8a9f-126afc5268e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -92,6 +101,17 @@ public partial class @MapInput : IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1b9ad03-32b3-4c8e-83ef-b90776bd5827"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Z target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -101,6 +121,7 @@ public partial class @MapInput : IInputActionCollection2, IDisposable
         // Map
         m_Map = asset.FindActionMap("Map", throwIfNotFound: true);
         m_Map_Movement = m_Map.FindAction("Movement", throwIfNotFound: true);
+        m_Map_Ztarget = m_Map.FindAction("Z target", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,11 +182,13 @@ public partial class @MapInput : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Map;
     private IMapActions m_MapActionsCallbackInterface;
     private readonly InputAction m_Map_Movement;
+    private readonly InputAction m_Map_Ztarget;
     public struct MapActions
     {
         private @MapInput m_Wrapper;
         public MapActions(@MapInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Map_Movement;
+        public InputAction @Ztarget => m_Wrapper.m_Map_Ztarget;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -178,6 +201,9 @@ public partial class @MapInput : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_MapActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnMovement;
+                @Ztarget.started -= m_Wrapper.m_MapActionsCallbackInterface.OnZtarget;
+                @Ztarget.performed -= m_Wrapper.m_MapActionsCallbackInterface.OnZtarget;
+                @Ztarget.canceled -= m_Wrapper.m_MapActionsCallbackInterface.OnZtarget;
             }
             m_Wrapper.m_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -185,6 +211,9 @@ public partial class @MapInput : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Ztarget.started += instance.OnZtarget;
+                @Ztarget.performed += instance.OnZtarget;
+                @Ztarget.canceled += instance.OnZtarget;
             }
         }
     }
@@ -192,5 +221,6 @@ public partial class @MapInput : IInputActionCollection2, IDisposable
     public interface IMapActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnZtarget(InputAction.CallbackContext context);
     }
 }

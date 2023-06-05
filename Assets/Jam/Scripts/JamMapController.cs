@@ -62,12 +62,14 @@ public class JamMapController : MonoBehaviour
         {
             currentLevel.MoveEntity(entity, destination);
             CollectManaIfExists(destination);
+            JamGameController.instance.ChangeForm(dir);
             NextTurn();
         }
         else
         {
             Debug.Log("could not move player to " + destination);
         }
+        
     }
 
     public bool IsEnemyAtLocation(Vector2Int location)

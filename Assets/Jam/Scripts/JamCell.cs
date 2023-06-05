@@ -28,6 +28,11 @@ public class JamCell : MonoBehaviour
     public GameObject spawnPoint;
     public GameObject monsterSpawnPoint;
     public GameObject mana;
+
+    public GameObject upArrow;
+    public GameObject downArrow;
+    public GameObject rightArrow;
+    public GameObject leftArrow;
     
     public Vector2Int exitDirection = new Vector2Int(0,0);
     public void Initialize(Grid grid)
@@ -85,5 +90,13 @@ public class JamCell : MonoBehaviour
     {
         hasMana = false;
         mana.SetActive(false);
+    }
+
+    public void SetSignDirection(bool up, bool down, bool right, bool left)
+    {
+        upArrow.SetActive(up);
+        downArrow.SetActive(down);
+        rightArrow.SetActive(right);
+        leftArrow.SetActive(left);
     }
 }

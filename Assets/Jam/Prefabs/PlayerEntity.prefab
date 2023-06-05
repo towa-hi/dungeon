@@ -146,3 +146,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pos: {x: 0, y: 0}
   isPlayer: 1
+  spriteRenderer: {fileID: 292662940143708559}
