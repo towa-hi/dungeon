@@ -30,6 +30,7 @@ public class JamLevel : MonoBehaviour
         // set spawn point
         bool spawnFound = false;
         bool exitFound = false;
+        // always add player first 
         foreach (JamCell cell in cellDictionary.Values)
         {
             if (cell.isSpawn)
@@ -47,6 +48,10 @@ public class JamLevel : MonoBehaviour
                 JamGameController.instance.mapController.entityList.Add(player);
                 MoveEntity(player, spawnPos);
             }
+        }
+        foreach (JamCell cell in cellDictionary.Values)
+        {
+
 
             if (cell.isMonsterSpawn)
             {
