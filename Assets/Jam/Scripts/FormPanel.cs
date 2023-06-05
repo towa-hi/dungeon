@@ -25,6 +25,8 @@ public class FormPanel : MonoBehaviour
         heart1.enabled = false;
         heart2.enabled = false;
         heart3.enabled = false;
+        formName.text = form.formName;
+        manaValue.text = form.manaCost.ToString();
         UpdateHearts(form.maxHp, form.maxHp);
     }
 
@@ -66,9 +68,6 @@ public class FormPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (FormDef formDef in JamGameController.instance.formData.Values)
-        {
-            
-        }
+        
     }
 }

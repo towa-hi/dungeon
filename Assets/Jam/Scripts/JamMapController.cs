@@ -13,7 +13,7 @@ public class JamMapController : MonoBehaviour
     public List<JamLevel> levelList = new List<JamLevel>();
 
     public int turnIndex;
-    
+    // set by JamLevel.Initialize()
     public List<JamEntity> entityList;
     public JamEntity playerEntity;
 
@@ -47,9 +47,19 @@ public class JamMapController : MonoBehaviour
         Vector2Int dir = new Vector2Int((int)direction.x,(int)direction.y);
         JamEntity entity = playerEntity;
         Vector2Int destination = entity.pos + dir;
+        // check if exiting
+        JamCell cell = currentLevel.cellDictionary[entity.pos];
+        if (cell.isExit)
+        {
+            if (dir == cell.exitDirection)
+            {
+                ExitLevel();
+            }
+        }
         if (CanMove(entity.pos, dir))
         {
             currentLevel.MoveEntity(entity, destination);
+            CollectManaIfExists(destination);
             NextTurn();
         }
         else
@@ -144,5 +154,24 @@ public class JamMapController : MonoBehaviour
             MoveAI(entity);
         }
     }
-    
+
+    public void CollectManaIfExists(Vector2Int position)
+    {
+        if (!currentLevel.cellDictionary.ContainsKey(position))
+        {
+            return;
+        }
+
+        JamCell cell = currentLevel.cellDictionary[position];
+        if (cell.hasMana)
+        {
+            cell.CollectMana();
+            JamGameController.instance.currentMana += 1;
+        }
+    }
+
+    public void ExitLevel()
+    {
+        JamGameController.instance.NextLevel();
+    }
 }

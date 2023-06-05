@@ -18,6 +18,7 @@ public class JamCell : MonoBehaviour
     public bool isSpawn = false;
     public bool isMonsterSpawn = false;
     public bool isExit;
+    public bool hasMana;
     
     public GameObject upExit;
     public GameObject downExit;
@@ -26,6 +27,7 @@ public class JamCell : MonoBehaviour
     
     public GameObject spawnPoint;
     public GameObject monsterSpawnPoint;
+    public GameObject mana;
     
     public Vector2Int exitDirection = new Vector2Int(0,0);
     public void Initialize(Grid grid)
@@ -76,5 +78,12 @@ public class JamCell : MonoBehaviour
 
         isSpawn = false || spawnPoint.activeSelf;
         isMonsterSpawn = false || monsterSpawnPoint.activeSelf;
+        hasMana = false || mana.activeSelf;
+    }
+
+    public void CollectMana()
+    {
+        hasMana = false;
+        mana.SetActive(false);
     }
 }

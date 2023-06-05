@@ -29,6 +29,9 @@ public class JamGameController : MonoBehaviour
     public Sprite michiruSprite;
     public Sprite lumiSprite;
     public Sprite muumiSprite;
+
+    public WinScreen winScreen;
+    
     private void Awake()
     {
         // boilerplate singleton code
@@ -39,11 +42,8 @@ public class JamGameController : MonoBehaviour
             // kill self
             Destroy(this.gameObject);
             Debug.LogError("MainMenuController encountered duplicate singleton, deleted self");
-            return;
         }
         ins = this;
-        //make the gameobject for this persist across scenes
-        DontDestroyOnLoad(this.gameObject);
     }
     
     void Start()
@@ -77,7 +77,14 @@ public class JamGameController : MonoBehaviour
 
     public void NextLevel()
     {
+        if (mapController.currentLevel.levelNumber + 1 == mapController.levelList.Count)
+        {
+            // YOU WIN
+            winScreen.Initialize();
+            return;
+        }
         mapController.Initialize(mapController.currentLevel.levelNumber + 1);
+        
     }
 
     

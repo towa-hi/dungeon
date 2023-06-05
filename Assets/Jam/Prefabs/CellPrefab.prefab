@@ -684,12 +684,14 @@ MonoBehaviour:
   isSpawn: 0
   isMonsterSpawn: 0
   isExit: 0
+  hasMana: 0
   upExit: {fileID: 5116173552446503708}
   downExit: {fileID: 4755516141655850456}
   rightExit: {fileID: 2843950499026052535}
   leftExit: {fileID: 5497408649691670540}
   spawnPoint: {fileID: 2478280887086167327}
   monsterSpawnPoint: {fileID: 2711404691276326656}
+  mana: {fileID: 5483515166750999321}
   exitDirection: {x: 0, y: 0}
 --- !u!1001 &766226550002433257
 PrefabInstance:
