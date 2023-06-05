@@ -68,6 +68,9 @@ public class JamGameController : MonoBehaviour
         FormMuumi muumi = new FormMuumi();
         formData.Add(muumi.formId,muumi);
 
+        //always start as lia
+        currentForm = lia;
+        
         playerController.Initialize();
         mapController.Initialize(0);
         infoPanel.Initialize();
@@ -87,7 +90,38 @@ public class JamGameController : MonoBehaviour
         
     }
 
-    
+    public void ChangeForm(Vector2Int dir)
+    {
+        Vector2Int formPos = currentForm.formId;
+        if (formData.ContainsKey(formPos + dir))
+        {
+            currentForm = formData[formPos + dir];
+        }
+        else
+        {
+            Vector2Int invalidFormPos = formPos + dir;
+            if (invalidFormPos.x < 0)
+            {
+                invalidFormPos.x = 2;
+            }
+
+            if (invalidFormPos.x > 2)
+            {
+                invalidFormPos.x = 0;
+            }
+
+            if (invalidFormPos.y < 0)
+            {
+                invalidFormPos.y = 2;
+            }
+
+            if (invalidFormPos.y > 2)
+            {
+                invalidFormPos.y = 0;
+            }
+            currentForm = formData[invalidFormPos];
+        }
+    }
     
 }
 
