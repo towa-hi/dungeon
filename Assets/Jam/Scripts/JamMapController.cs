@@ -183,6 +183,7 @@ public class JamMapController : MonoBehaviour
         if (GetAdjacentRooms(enemy.pos).Contains(playerEntity.pos))
         {
             Debug.Log("attack!!!!");
+            JamGameController.instance.currentForm.remainingHp -= 1;
         }
         else
         {
@@ -264,7 +265,7 @@ public class JamMapController : MonoBehaviour
         foreach (Vector2Int room in rooms)
         {
             // only pick rooms where there is not currently an enemy
-            Debug.Log("check room " + room.ToString());
+            // Debug.Log("check room " + room.ToString());
             if (!IsEnemyAtLocation(room))
             {
                 if ((weights[room] < min))
