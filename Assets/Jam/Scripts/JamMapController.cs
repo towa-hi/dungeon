@@ -134,16 +134,59 @@ public class JamMapController : MonoBehaviour
         
         return true;
     }
-    
+    public bool NoWalls(Vector2Int origin, Vector2Int direction)
+    {
+        Vector2Int destination = origin + direction;
+        JamCell originCell = currentLevel.cellDictionary[origin];
+        if (!currentLevel.cellDictionary.ContainsKey(destination))
+        {
+            return false;
+        }
+        
+        JamCell destinationCell = currentLevel.cellDictionary[destination];
+        // what obstructions do we look for
+        if (direction == Vector2Int.up)
+        {
+            // check origin tile for up wall
+            if (originCell.hasUpWall)
+            {
+                return false;
+            }
+        }
+        if (direction == Vector2Int.right)
+        {
+            if (originCell.hasRightWall)
+            {
+                return false;
+            }
+        }
+        if (direction == Vector2Int.down)
+        {
+            if (destinationCell.hasUpWall)
+            {
+                return false;
+            }
+        }
+        if (direction == Vector2Int.left)
+        {
+            if (destinationCell.hasRightWall)
+            {
+                return false;
+            }
+        }
+        
+        
+        return true;
+    }
     public void MoveAI(JamEntity enemy)
     {
         //decide what tile the AI moves to
-        Vector2Int next = ChasePlayer(enemy.pos);
-        Vector2Int dir = (next - enemy.pos);
-        Debug.Log("I want to move to " + next.ToString() + " in the direction " + dir.ToString());
+        Vector2Int dir = ChasePlayer(enemy.pos);
+        // Vector2Int dir = (next - enemy.pos);
+        Debug.Log("I am at " + enemy.pos.ToString() + " and want to move dir " + dir.ToString() + " in the direction " + dir.ToString());
         if (CanMove(enemy.pos, dir))
         {
-            currentLevel.MoveEntity(enemy, next);
+            currentLevel.MoveEntity(enemy, enemy.pos + dir);
         }
         else
         {
@@ -156,19 +199,19 @@ public class JamMapController : MonoBehaviour
     public List<Vector2Int> GetAdjacentRooms(Vector2Int room)
     {
         List<Vector2Int> adjacents = new List<Vector2Int>();
-        if (CanMove(room, Vector2Int.up))
+        if (NoWalls(room, Vector2Int.up))
         {
             adjacents.Add(room + Vector2Int.up);
         }
-        if (CanMove(room, Vector2Int.down))
+        if (NoWalls(room, Vector2Int.down))
         {
             adjacents.Add(room + Vector2Int.down);
         }
-        if (CanMove(room, Vector2Int.left))
+        if (NoWalls(room, Vector2Int.left))
         {
             adjacents.Add(room + Vector2Int.left);
         }
-        if (CanMove(room, Vector2Int.right))
+        if (NoWalls(room, Vector2Int.right))
         {
             adjacents.Add(room + Vector2Int.right);
         }
@@ -201,8 +244,8 @@ public class JamMapController : MonoBehaviour
     public Vector2Int ChasePlayer(Vector2Int start)
     {
         PopulateWeights();
-        weights[start] = 0;
         Vector2Int destination = playerEntity.pos;
+        weights[destination] = 0;
         AssignWeights(destination, 1);
         int min = 100;
         Vector2Int output = new Vector2Int();
@@ -267,7 +310,7 @@ public class JamMapController : MonoBehaviour
         }
         return destination;
         */
-        return output;
+        return (output - start);
     }
 
     public void NextTurn()
