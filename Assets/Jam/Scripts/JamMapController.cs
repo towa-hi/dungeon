@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -68,6 +70,19 @@ public class JamMapController : MonoBehaviour
         }
     }
 
+    public bool IsEnemyAtLocation(Vector2Int location)
+    {
+        foreach (JamEntity monster in entityList) 
+        {
+            if (monster.pos == location)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public bool CanMove(Vector2Int origin, Vector2Int direction)
     {
         Vector2Int destination = origin + direction;
@@ -76,6 +91,12 @@ public class JamMapController : MonoBehaviour
         {
             return false;
         }
+
+        if (IsEnemyAtLocation(destination))
+        {
+            return false;
+        }
+        
         JamCell destinationCell = currentLevel.cellDictionary[destination];
         // what obstructions do we look for
         if (direction == Vector2Int.up)
@@ -115,7 +136,136 @@ public class JamMapController : MonoBehaviour
     public void MoveAI(JamEntity enemy)
     {
         //decide what tile the AI moves to
+        Vector2Int next = ChasePlayer(enemy.pos);
+        Vector2Int dir = (next - enemy.pos);
+        Debug.Log("I want to move to " + next.ToString() + " in the direction " + dir.ToString());
+        if (CanMove(enemy.pos, dir))
+        {
+            currentLevel.MoveEntity(enemy, next);
+        }
+        else
+        {
+            Debug.Log("wrong move!!");
+        }
+
         NextTurn();
+    }
+
+    public List<Vector2Int> GetAdjacentRooms(Vector2Int room)
+    {
+        List<Vector2Int> adjacents = new List<Vector2Int>();
+        if (CanMove(room, Vector2Int.up))
+        {
+            adjacents.Add(room + Vector2Int.up);
+        }
+        if (CanMove(room, Vector2Int.down))
+        {
+            adjacents.Add(room + Vector2Int.down);
+        }
+        if (CanMove(room, Vector2Int.left))
+        {
+            adjacents.Add(room + Vector2Int.left);
+        }
+        if (CanMove(room, Vector2Int.right))
+        {
+            adjacents.Add(room + Vector2Int.right);
+        }
+
+        return adjacents;
+    }
+
+    private Dictionary<Vector2Int, int> weights = new Dictionary<Vector2Int, int>();
+
+    public void PopulateWeights()
+    {
+        weights.Clear();
+        foreach (Vector2Int room in currentLevel.cellDictionary.Keys)
+        {
+            weights.Add(room, 1000);
+        }
+    }
+    public void AssignWeights(Vector2Int start, int value)
+    {
+        foreach (Vector2Int room in GetAdjacentRooms(start))
+        {
+            Debug.Log("I see value of " + room.ToString() + " as " + weights[room] + " comparing to " + value.ToString());
+            if (weights[room] > value)
+            {
+                weights[room] = value;
+                AssignWeights(room, value + 1);
+            }
+        }
+    }
+    public Vector2Int ChasePlayer(Vector2Int start)
+    {
+        PopulateWeights();
+        weights[start] = 0;
+        Vector2Int destination = playerEntity.pos;
+        AssignWeights(destination, 1);
+        int min = 100;
+        Vector2Int output = new Vector2Int();
+        foreach (Vector2Int room in GetAdjacentRooms(start))
+        {
+            if (weights[room] < min)
+            {
+                min = weights[room];
+                output = room;
+            }
+        }
+        /*
+        Vector2Int destination = playerEntity.pos;
+        List<Vector2Int> F = new List<Vector2Int>(); // should contain all cells?
+        int heuristicEstimate = 10;
+        int flimit = heuristicEstimate;
+        bool found = false;
+        while ((found == false) && (F.Count > 0))
+        {
+            int fmin = 1000;
+            // length
+            foreach (Vector2Int node in F)
+            {
+                (g, parent) = C[node];
+                estimate = g + h(node);
+                if (estimate > flimit)
+                {
+                    fmin = min(estimate, fmin);
+                    continue;
+                }
+                if (node == destination)
+                {
+                    found = true;
+                    break;
+                }
+                foreach (child in node)
+                {
+                    g_child = g + cost(node, child);
+                    if (C[child] != null)
+                    {
+                        (g_cached, parent) = C[child];
+                        if (g_child >= g_cached)
+                        {
+                            continue;
+                        }
+                    }
+                    if (child in F)
+                    {
+                        remove child from F;
+                    }
+                    insert child in F past node;
+                    C[child] = (g_child, node);
+                }
+                remove node from F;
+            }
+
+            flimit = fmin;
+        }
+        if reachedgoal == true;
+        {
+            reverse_path(goal);
+        }
+        return destination;
+        */
+        return output;
     }
 
     public void NextTurn()
