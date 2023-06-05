@@ -72,6 +72,14 @@ public class JamMapController : MonoBehaviour
         
     }
 
+    public void KillEnemy(JamEntity enemy)
+    {
+        entityList.Remove(enemy);
+        Destroy(enemy.gameObject);
+        JamGameController.instance.currentMana += 1;
+        Debug.Log("enemy at pos " + enemy.pos + " killed");
+    }
+
     public bool IsEnemyAtLocation(Vector2Int location)
     {
         foreach (JamEntity monster in entityList) 
@@ -85,6 +93,18 @@ public class JamMapController : MonoBehaviour
         return false;
     }
 
+    public JamEntity GetEnemyAtLocation(Vector2Int location)
+    {
+        foreach (JamEntity monster in entityList)
+        {
+            if (!monster.isPlayer)
+            {
+                return monster;
+            }
+        }
+
+        return null;
+    }
     public bool CanMove(Vector2Int origin, Vector2Int direction)
     {
         Vector2Int destination = origin + direction;
@@ -294,6 +314,7 @@ public class JamMapController : MonoBehaviour
     {
         
         Debug.Log("turn " + turnIndex + " has ended");
+        JamGameController.instance.playerController.needRefresh = true;
         turnIndex += 1;
     }
 

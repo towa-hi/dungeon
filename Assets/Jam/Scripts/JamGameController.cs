@@ -144,7 +144,7 @@ public abstract class FormDef
         
     }
 
-    public virtual void Attack()
+    public virtual void Attack(Vector2Int dir)
     {
         
     }
@@ -158,7 +158,7 @@ public class FormLia : FormDef
         formId =  new Vector2Int(0, 0);
         formSprite = JamGameController.instance.liaSprite;
         formName = "Lia";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
@@ -168,18 +168,22 @@ public class FormLia : FormDef
         foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
         {
             cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
         }
         foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
         {
             cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
         }
         foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
         {
             cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
         }
         foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
         {
             cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
         }
     }
 
@@ -187,45 +191,78 @@ public class FormLia : FormDef
     {
         JamMapController mapController = JamGameController.instance.mapController;
         Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
         List<JamCell> attackedTiles = new List<JamCell>();
         if (dir == Vector2Int.up)
         {
-            JamCell attackedTile = mapController.GetCell(currentPos + Vector2Int.up);
-            if (attackedTile)
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
             {
-                attackedTiles.Add(attackedTile);
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
             }
         }
         if (dir == Vector2Int.down)
         {
-            JamCell attackedTile = mapController.GetCell(currentPos + Vector2Int.down);
-            if (attackedTile)
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
             {
-                attackedTiles.Add(attackedTile);
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
             }
         }
         if (dir == Vector2Int.right)
         {
-            JamCell attackedTile = mapController.GetCell(currentPos + Vector2Int.right);
-            if (attackedTile)
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
             {
-                attackedTiles.Add(attackedTile);
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
             }
         }
         if (dir == Vector2Int.left)
         {
-            JamCell attackedTile = mapController.GetCell(currentPos + Vector2Int.left);
-            if (attackedTile)
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
             {
-                attackedTiles.Add(attackedTile);
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
             }
         }
 
         return attackedTiles;
     }
-    public override void Attack()
+    public override void Attack(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }
 
@@ -236,19 +273,111 @@ public class FormNasa : FormDef
         formId =  new Vector2Int(1, 0);
         formSprite = JamGameController.instance.nasaSprite;
         formName = "Nasa";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
-    
+
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
+        }
     }
-    
-    public override void Attack()
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
+            {
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
+            {
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+
+        return attackedTiles;
+    }
+    public override void Attack(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }
 
@@ -259,19 +388,111 @@ public class FormPippa : FormDef
         formId =  new Vector2Int(2, 0);
         formSprite = JamGameController.instance.pippaSprite;
         formName = "Pippa";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
-    
+
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
+        }
     }
-    
-    public override void Attack()
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
+            {
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
+            {
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+
+        return attackedTiles;
+    }
+    public override void Attack(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }
 
@@ -282,19 +503,111 @@ public class FormTenma : FormDef
         formId =  new Vector2Int(0, 1);
         formSprite = JamGameController.instance.tenmaSprite;
         formName = "Tenma";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
-    
+
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
+        }
     }
-    
-    public override void Attack()
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
+            {
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
+            {
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+
+        return attackedTiles;
+    }
+    public override void Attack(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }
 
@@ -305,19 +618,111 @@ public class FormIori : FormDef
         formId =  new Vector2Int(1, 1);
         formSprite = JamGameController.instance.ioriSprite;
         formName = "Iori";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
-    
+
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
+        }
     }
-    
-    public override void Attack()
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
+            {
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
+            {
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+
+        return attackedTiles;
+    }
+    public override void Attack(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }
 
@@ -328,19 +733,111 @@ public class FormUruka : FormDef
         formId =  new Vector2Int(2, 1);
         formSprite = JamGameController.instance.urukaSprite;
         formName = "Uruka";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
-    
+
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
+        }
     }
-    
-    public override void Attack()
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
+            {
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
+            {
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+
+        return attackedTiles;
+    }
+    public override void Attack(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }
 
@@ -352,19 +849,111 @@ public class FormMichiru : FormDef
         formId =  new Vector2Int(0, 2);
         formSprite = JamGameController.instance.michiruSprite;
         formName = "Michiru";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
-    
+
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
+        }
     }
-    
-    public override void Attack()
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
+            {
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
+            {
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+
+        return attackedTiles;
+    }
+    public override void Attack(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }
 
@@ -375,19 +964,111 @@ public class FormLumi : FormDef
         formId =  new Vector2Int(1, 2);
         formSprite = JamGameController.instance.lumiSprite;
         formName = "Lumi";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
-    
+
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
+        }
     }
-    
-    public override void Attack()
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
+            {
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
+            {
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+
+        return attackedTiles;
+    }
+    public override void Attack(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }
 
@@ -398,18 +1079,110 @@ public class FormMuumi : FormDef
         formId =  new Vector2Int(2, 2);
         formSprite = JamGameController.instance.muumiSprite;
         formName = "Muumi";
-        manaCost = 1;
+        manaCost = 2;
         maxHp = 2;
         remainingHp = maxHp;
     }
-    
+ 
     public override void Target()
     {
-        
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
+        {
+            cell.SetSignDirection(Vector2Int.up);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
+        {
+            cell.SetSignDirection(Vector2Int.down);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
+        {
+            cell.SetSignDirection(Vector2Int.right);
+            cell.SetCircle(true);
+        }
+        foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
+        {
+            cell.SetSignDirection(Vector2Int.left);
+            cell.SetCircle(true);
+        }
     }
-    
-    public override void Attack()
+
+    public List<JamCell> ListOfAttackedCells(Vector2Int dir)
     {
-        
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int currentPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[currentPos];
+        List<JamCell> attackedTiles = new List<JamCell>();
+        if (dir == Vector2Int.up)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
+            if (attackedCell)
+            {
+                if (!currentCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.down)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasUpWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.right)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
+            if (attackedCell)
+            {
+                if (!currentCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+        if (dir == Vector2Int.left)
+        {
+            JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
+            if (attackedCell)
+            {
+                if (!attackedCell.hasRightWall)
+                {
+                    attackedTiles.Add(attackedCell);
+                }
+            }
+        }
+
+        return attackedTiles;
+    }
+    public override void Attack(Vector2Int dir)
+    {
+        JamMapController mapController = JamGameController.instance.mapController;
+        Vector2Int playerPos = mapController.playerEntity.pos;
+        JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
+        List<JamCell> attackedCells = ListOfAttackedCells(dir);
+        bool enemyFound = false;
+        foreach (JamCell cell in attackedCells)
+        {
+            JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
+            if (enemy != null)
+            {
+                enemyFound = true;
+                mapController.KillEnemy(enemy);
+            }
+        }
+
+        if (enemyFound)
+        {
+            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+            JamGameController.instance.currentMana -= manaCost;
+            mapController.NextTurn();
+        }
     }
 }

@@ -33,6 +33,7 @@ public class JamCell : MonoBehaviour
     public GameObject downArrow;
     public GameObject rightArrow;
     public GameObject leftArrow;
+    public GameObject circle;
     
     public Vector2Int exitDirection = new Vector2Int(0,0);
     public void Initialize(Grid grid)
@@ -98,6 +99,7 @@ public class JamCell : MonoBehaviour
         downArrow.SetActive(false);
         rightArrow.SetActive(false);
         leftArrow.SetActive(false);
+        circle.SetActive(false);
     }
     public void SetSignDirection(Vector2Int dir)
     {
@@ -122,5 +124,10 @@ public class JamCell : MonoBehaviour
         {
             leftArrow.SetActive(true);
         }
+    }
+
+    public void SetCircle(bool enableCircle)
+    {
+        circle.SetActive(enableCircle);
     }
 }

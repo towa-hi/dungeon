@@ -85,6 +85,10 @@ public class JamLevel : MonoBehaviour
     {
         entity.pos = pos;
         entity.transform.position = grid.CellToWorld((Vector3Int)pos);
+        if (entity.isPlayer)
+        {
+            JamGameController.instance.mapController.CollectManaIfExists(entity.pos);
+        }
     }
     
 }

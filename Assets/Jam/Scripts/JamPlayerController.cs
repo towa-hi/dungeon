@@ -34,7 +34,9 @@ public class JamPlayerController : MonoBehaviour
         
     }
 
-    private bool isTargeting = false;
+    public bool isTargeting = false;
+
+    public bool needRefresh = false;
     // Update is called once per frame
     void Update()
     {
@@ -45,7 +47,20 @@ public class JamPlayerController : MonoBehaviour
         isTargeting = controls.Map.Ztarget.IsPressed();
         if (isTargeting)
         {
-            Targeting();
+            if (needRefresh)
+            {
+                foreach (JamCell cell in JamGameController.instance.mapController.currentLevel.cellDictionary.Values)
+                {
+                    cell.ClearSigns();
+                }
+
+                needRefresh = false;
+            }
+            else
+            {
+                Targeting();
+
+            }
             // await movement keys
         }
         else
@@ -78,6 +93,12 @@ public class JamPlayerController : MonoBehaviour
     void AttackDirection(Vector2 direction)
     {
         Debug.Log("attack direction " + direction);
+        if (JamGameController.instance.currentMana < JamGameController.instance.currentForm.manaCost)
+        {
+            Debug.Log("can't attack , no mana");
+        }
+        Vector2Int dir = new Vector2Int((int)direction.x, (int)direction.y);
+        JamGameController.instance.currentForm.Attack(dir);
     }
 }
 
