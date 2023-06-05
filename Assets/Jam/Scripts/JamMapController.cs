@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -42,8 +40,9 @@ public class JamMapController : MonoBehaviour
         }
         entityList = new List<JamEntity>();
     }
-    
-    
+
+    public bool shouldChangeFormAtEndOfTurn = false;
+    public Vector2Int changeFormDir = new Vector2Int();
     public void MovePlayer(Vector2 direction)
     {
         Vector2Int dir = new Vector2Int((int)direction.x,(int)direction.y);
@@ -62,7 +61,8 @@ public class JamMapController : MonoBehaviour
         {
             currentLevel.MoveEntity(entity, destination);
             CollectManaIfExists(destination);
-            JamGameController.instance.ChangeForm(dir);
+            shouldChangeFormAtEndOfTurn = true;
+            changeFormDir = dir;
             NextTurn();
         }
         else
@@ -99,7 +99,10 @@ public class JamMapController : MonoBehaviour
         {
             if (!monster.isPlayer)
             {
-                return monster;
+                if (monster.pos == location)
+                {
+                    return monster;
+                }
             }
         }
 
@@ -204,12 +207,25 @@ public class JamMapController : MonoBehaviour
         {
             Debug.Log("attack!!!!");
             JamGameController.instance.currentForm.remainingHp -= 1;
+            if (JamGameController.instance.currentForm.remainingHp <= 0)
+            {
+                JamGameController.instance.LoseGame();
+            }
         }
         else
         {
             //decide what tile the AI moves to
             Vector2Int dir = ChasePlayer(enemy.pos);
-            Debug.Log("I am at " + enemy.pos.ToString() + " going in the direction " + dir.ToString());
+            Debug.Log("I am " + enemy.gameObject.name + " at " + enemy.pos.ToString() + " going in the direction " + dir.ToString());
+            bool cellOccupied = false;
+            // foreach (JamEntity entity in entityList)
+            // {
+            //     if (entity.pos == enemy.pos + dir)
+            //     {
+            //         cellOccupied = true;
+            //     }
+            // }
+            // Debug.Assert(!cellOccupied);
             if (dir == Vector2Int.zero)
             {
                 Debug.Log("going nowhere");
@@ -338,6 +354,11 @@ public class JamMapController : MonoBehaviour
         // if tne entity is a player, do nothing just wait for input
         if (entity.isPlayer)
         {
+            if (shouldChangeFormAtEndOfTurn)
+            {
+                shouldChangeFormAtEndOfTurn = false;
+                JamGameController.instance.ChangeForm(changeFormDir);
+            }
             awaitingTurn = true;
             //await input
         }

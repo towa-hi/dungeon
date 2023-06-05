@@ -31,7 +31,18 @@ public class JamGameController : MonoBehaviour
     public Sprite muumiSprite;
 
     public WinScreen winScreen;
-    
+    public WinScreen loseScreen;
+    public GameObject readMe;
+
+    public void OpenReadme()
+    {
+        readMe.SetActive(true);
+    }
+
+    public void CloseReadme()
+    {
+        readMe.SetActive(false);
+    }
     private void Awake()
     {
         // boilerplate singleton code
@@ -87,6 +98,14 @@ public class JamGameController : MonoBehaviour
             return;
         }
         mapController.Initialize(mapController.currentLevel.levelNumber + 1);
+        
+    }
+
+    public void LoseGame()
+    {
+
+        loseScreen.Initialize();
+        return;
         
     }
 
@@ -261,6 +280,8 @@ public class FormLia : FormDef
         {
             mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
             JamGameController.instance.currentMana -= manaCost;
+            mapController.shouldChangeFormAtEndOfTurn = true;
+            mapController.changeFormDir = dir;
             mapController.NextTurn();
         }
     }
@@ -376,6 +397,8 @@ public class FormNasa : FormDef
         {
             mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
             JamGameController.instance.currentMana -= manaCost;
+            mapController.shouldChangeFormAtEndOfTurn = true;
+            mapController.changeFormDir = dir;
             mapController.NextTurn();
         }
     }
@@ -428,10 +451,7 @@ public class FormPippa : FormDef
             JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.up);
             if (attackedCell)
             {
-                if (!currentCell.hasUpWall)
-                {
-                    attackedTiles.Add(attackedCell);
-                }
+                attackedTiles.Add(attackedCell);
             }
         }
         if (dir == Vector2Int.down)
@@ -439,10 +459,7 @@ public class FormPippa : FormDef
             JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.down);
             if (attackedCell)
             {
-                if (!attackedCell.hasUpWall)
-                {
-                    attackedTiles.Add(attackedCell);
-                }
+                attackedTiles.Add(attackedCell);
             }
         }
         if (dir == Vector2Int.right)
@@ -450,10 +467,7 @@ public class FormPippa : FormDef
             JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.right);
             if (attackedCell)
             {
-                if (!currentCell.hasRightWall)
-                {
-                    attackedTiles.Add(attackedCell);
-                }
+                attackedTiles.Add(attackedCell);
             }
         }
         if (dir == Vector2Int.left)
@@ -461,10 +475,7 @@ public class FormPippa : FormDef
             JamCell attackedCell = mapController.GetCell(currentPos + Vector2Int.left);
             if (attackedCell)
             {
-                if (!attackedCell.hasRightWall)
-                {
-                    attackedTiles.Add(attackedCell);
-                }
+                attackedTiles.Add(attackedCell);
             }
         }
 
@@ -476,23 +487,19 @@ public class FormPippa : FormDef
         Vector2Int playerPos = mapController.playerEntity.pos;
         JamCell currentCell = mapController.currentLevel.cellDictionary[playerPos];
         List<JamCell> attackedCells = ListOfAttackedCells(dir);
-        bool enemyFound = false;
         foreach (JamCell cell in attackedCells)
         {
             JamEntity enemy = JamGameController.instance.mapController.GetEnemyAtLocation(cell.pos);
             if (enemy != null)
             {
-                enemyFound = true;
                 mapController.KillEnemy(enemy);
             }
         }
-
-        if (enemyFound)
-        {
-            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
-            JamGameController.instance.currentMana -= manaCost;
-            mapController.NextTurn();
-        }
+        mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
+        JamGameController.instance.currentMana -= manaCost;
+        mapController.shouldChangeFormAtEndOfTurn = true;
+        mapController.changeFormDir = dir;
+        mapController.NextTurn();
     }
 }
 
@@ -513,22 +520,18 @@ public class FormTenma : FormDef
         foreach (JamCell cell in ListOfAttackedCells(Vector2Int.up))
         {
             cell.SetSignDirection(Vector2Int.up);
-            cell.SetCircle(true);
         }
         foreach (JamCell cell in ListOfAttackedCells(Vector2Int.down))
         {
             cell.SetSignDirection(Vector2Int.down);
-            cell.SetCircle(true);
         }
         foreach (JamCell cell in ListOfAttackedCells(Vector2Int.right))
         {
             cell.SetSignDirection(Vector2Int.right);
-            cell.SetCircle(true);
         }
         foreach (JamCell cell in ListOfAttackedCells(Vector2Int.left))
         {
             cell.SetSignDirection(Vector2Int.left);
-            cell.SetCircle(true);
         }
     }
 
@@ -604,8 +607,9 @@ public class FormTenma : FormDef
 
         if (enemyFound)
         {
-            mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
             JamGameController.instance.currentMana -= manaCost;
+            mapController.shouldChangeFormAtEndOfTurn = true;
+            mapController.changeFormDir = dir;
             mapController.NextTurn();
         }
     }
@@ -721,6 +725,8 @@ public class FormIori : FormDef
         {
             mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
             JamGameController.instance.currentMana -= manaCost;
+            mapController.shouldChangeFormAtEndOfTurn = true;
+            mapController.changeFormDir = dir;
             mapController.NextTurn();
         }
     }
@@ -836,6 +842,8 @@ public class FormUruka : FormDef
         {
             mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
             JamGameController.instance.currentMana -= manaCost;
+            mapController.shouldChangeFormAtEndOfTurn = true;
+            mapController.changeFormDir = dir;
             mapController.NextTurn();
         }
     }
@@ -952,6 +960,8 @@ public class FormMichiru : FormDef
         {
             mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
             JamGameController.instance.currentMana -= manaCost;
+            mapController.shouldChangeFormAtEndOfTurn = true;
+            mapController.changeFormDir = dir;
             mapController.NextTurn();
         }
     }
@@ -1067,6 +1077,9 @@ public class FormLumi : FormDef
         {
             mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
             JamGameController.instance.currentMana -= manaCost;
+            JamGameController.instance.currentStars += 1;
+            mapController.shouldChangeFormAtEndOfTurn = true;
+            mapController.changeFormDir = dir;
             mapController.NextTurn();
         }
     }
@@ -1079,8 +1092,8 @@ public class FormMuumi : FormDef
         formId =  new Vector2Int(2, 2);
         formSprite = JamGameController.instance.muumiSprite;
         formName = "Muumi";
-        manaCost = 2;
-        maxHp = 2;
+        manaCost = 3;
+        maxHp = 3;
         remainingHp = maxHp;
     }
  
@@ -1182,6 +1195,8 @@ public class FormMuumi : FormDef
         {
             mapController.currentLevel.MoveEntity(mapController.playerEntity, playerPos + dir);
             JamGameController.instance.currentMana -= manaCost;
+            mapController.shouldChangeFormAtEndOfTurn = true;
+            mapController.changeFormDir = dir;
             mapController.NextTurn();
         }
     }

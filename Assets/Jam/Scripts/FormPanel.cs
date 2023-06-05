@@ -75,6 +75,6 @@ public class FormPanel : MonoBehaviour
             return;
         }
         squib.SetSquib(JamGameController.instance.currentForm == form);
-        
+        UpdateHearts(form.maxHp, form.remainingHp);
     }
 }

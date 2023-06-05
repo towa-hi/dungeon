@@ -49,14 +49,16 @@ public class JamLevel : MonoBehaviour
                 MoveEntity(player, spawnPos);
             }
         }
+
+        int enemyId = 0;
         foreach (JamCell cell in cellDictionary.Values)
         {
-
-
             if (cell.isMonsterSpawn)
             {
                 GameObject enemyPrefab = Instantiate(JamGameController.instance.playerController.enemyPrefab,  JamGameController.instance.playerController.transform);
                 JamEntity enemy = enemyPrefab.GetComponent<JamEntity>();
+                enemy.gameObject.name = "enemy " + enemyId;
+                enemyId += 1;
                 JamGameController.instance.mapController.entityList.Add(enemy);
                 MoveEntity(enemy, cell.pos);
             }
