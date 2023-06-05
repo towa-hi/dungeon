@@ -16,6 +16,8 @@ public class FormPanel : MonoBehaviour
     public List<Image> hearts;
     public TextMeshProUGUI manaValue;
     public TextMeshProUGUI formName;
+    public SquibbyScript squib;
+    
     public bool initialized = false;
     public void Initialize(FormDef form)
     {
@@ -68,6 +70,11 @@ public class FormPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!initialized)
+        {
+            return;
+        }
+        squib.SetSquib(JamGameController.instance.currentForm == form);
         
     }
 }

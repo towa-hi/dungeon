@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 1886245160473664740}
   - component: {fileID: 217506102914524362}
   - component: {fileID: 45530501183070067}
+  - component: {fileID: 9200341529888757856}
   m_Layer: 5
   m_Name: Squibby
   m_TagString: Untagged
@@ -110,10 +111,10 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7.5, y: 0}
-  m_SizeDelta: {x: -15, y: -10}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 23.83}
+  m_SizeDelta: {x: 0, y: 90.98003}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &217506102914524362
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -152,6 +153,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9200341529888757856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353900691881870547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8916b18e437e05844adbae0799f9915e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSquibbing: 0
+  speed: 5
+  magnitude: 0.6
 --- !u!1 &379561223202685651
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,8 +812,10 @@ MonoBehaviour:
   heart1: {fileID: 5074829279131207823}
   heart2: {fileID: 1151505449949565075}
   heart3: {fileID: 1461567421345034474}
+  hearts: []
   manaValue: {fileID: 7017441217956577049}
   formName: {fileID: 2542171726971119004}
+  squib: {fileID: 9200341529888757856}
   initialized: 0
 --- !u!1 &3961955208805030954
 GameObject:
