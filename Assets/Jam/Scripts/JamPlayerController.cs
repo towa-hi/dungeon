@@ -30,17 +30,41 @@ public class JamPlayerController : MonoBehaviour
     {
         controls = new MapInput();
         controls.Map.Movement.performed += ctx => MoveDirection(ctx.ReadValue<Vector2>());
+        
     }
 
+    private bool isTargeting = false;
     // Update is called once per frame
     void Update()
     {
-        
+        isTargeting = controls.Map.Ztarget.IsPressed();
+        if (isTargeting)
+        {
+            Targeting();
+            // await movement keys
+        }
     }
 
     void MoveDirection(Vector2 direction)
     {
-        JamGameController.instance.mapController.MovePlayer(direction);
+        if (isTargeting)
+        {
+            AttackDirection(direction);
+        }
+        else
+        {
+            JamGameController.instance.mapController.MovePlayer(direction);
+        }
+    }
+
+    void Targeting()
+    {
+        
+    }
+
+    void AttackDirection(Vector2 direction)
+    {
+        Debug.Log("attack direction " + direction);
     }
 }
 

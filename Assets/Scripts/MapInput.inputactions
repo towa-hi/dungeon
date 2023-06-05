@@ -1,5 +1,5 @@
 {
-    "name": "Input",
+    "name": "MapInput",
     "maps": [
         {
             "name": "Map",
@@ -12,6 +12,15 @@
                     "expectedControlType": "Vector2",
                     "processors": "NormalizeVector2",
                     "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Z target",
+                    "type": "Button",
+                    "id": "7526eba1-a698-46d8-8a9f-126afc5268e4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -70,6 +79,17 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "c1b9ad03-32b3-4c8e-83ef-b90776bd5827",
+                    "path": "<Keyboard>/z",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Z target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
